@@ -13,13 +13,6 @@ try:
 except ImportError:
 	print "install python-numpy"	
 	exit(1)
-
-try:	
-	import simplejson
-except ImportError:
-	print "install python-simplejson"	
-	exit(1)
-
 print "all modules have been installed"
 
 
