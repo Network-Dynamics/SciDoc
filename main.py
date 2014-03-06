@@ -12,13 +12,14 @@ def read_conf(config):
 	Will parse the file named config and tell us which handlers to use
 	"""
 	f=open(config,'r')
-	conflines=f.read().strip().split('\n')
+	conflines=f.readlines()
 	
-
 	res=[]
 
 	for confline in conflines:
-		fields=confline.split('\t')
+		if confline.isspace():
+			continue
+		fields=confline.strip().split('\t')	#fields[0]==handlername, fields[1:] are parameters, vald python expressions
 		handler=handlers.handlermap[fields[0]]
 		
 		if len(fields)>1:
@@ -28,7 +29,7 @@ def read_conf(config):
 				paramlist.append(eval(detail))
 	
 			res.append((handler,tuple(paramlist)))
-		else:
+		else:	#a handler without any parameters
 			res.append((handler,()))	
 	f.close()
 	return res
@@ -42,7 +43,7 @@ def ui_handler(output):
 
 
 
-def apply_rules(text,config):		#must be passed an NLTK corpus and a config file
+def apply_rules(text,config):		#must be passed an NLTK corpus and a config file listing which handler to use
 	parsed_config=read_conf(config)
 
 	for handler,params in parsed_config:
@@ -68,8 +69,6 @@ def parse_raw(source,typ='txt'):
 	else:
 		pass
 			
-
-
 
 if __name__=='__main__':
 #	text=parse_raw("./texts/thesis.txt",typ='txt')
