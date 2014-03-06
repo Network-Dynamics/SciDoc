@@ -1,0 +1,1008 @@
+
+
+
+
+
+
+
+
+
+
+   
+    
+    .pdf
+
+
+
+
+
+
+
+
+
+
+
+
+thmTheorem
+defn[thm]Definition
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+theoremTheorem
+corrCorollary
+claimClaim
+problemProblem
+
+
+
+
+
+
+apsrev
+Supplementary Information
+
+Debsankha Manik
+Network Dynamics, Max Planck Institute for Dynamics and Self-Organization (MPIDS), Am Fassberg 17, D--37077 Gottingen, Germany
+
+Benjamin Schafer
+Network Dynamics, Max Planck Institute for Dynamics and Self-Organization (MPIDS), Am Fassberg 17, D--37077 Gottingen, Germany
+
+Moritz Matthiae
+Network Dynamics, Max Planck Institute for Dynamics and Self-Organization (MPIDS), Am Fassberg 17, D--37077 Gottingen, Germany
+
+
+Marc Timme
+Network Dynamics, Max Planck Institute for Dynamics and Self-Organization (MPIDS), Am Fassberg 17, D--37077 Gottingen, Germany
+Faculty of Physics, Georg August University Gottingen,
+  Germany
+
+Dirk Witthaut
+Network Dynamics, Max Planck Institute for Dynamics and Self-Organization (MPIDS), Am Fassberg 17, D--37077 Gottingen, Germany
+
+
+
+
+
+
+
+
+
+
+
+
+
+Introduction
+
+Don't spend time on the introduction yet. We'll write that later.
+
+An oscillator model for powergrid operation
+
+We model the power grid as a network of  rotating synchronous machines 
+
+representing, for instance, wind turbines, or electric motors . Each machine 
+
+is characterized by the mechanical power  it 
+generates () or consumes 
+(). The state of each rotating machine is 
+determined by its mechanical phase angle  and 
+its velocity  and the dynamics is goverened 
+by the swing equation:
+
+
+   I_j d^2 _jdt^2 + D_j d _jdt
+    = P_j^mech - P_j^el,
+
+where  is the machine's moment of inertia and 
+is the damping torque coefficient.  The mechanical phase angle  
+equals the electric phase angle for a two-pole machine. Otherwise
+both are related by a constant factor.
+If a generator is decoupled from the grid in an uncontrolled way 
+such that , it accelerates until finally an 
+emergency shutdown is performed.
+
+
+The electrical power in an AC circuit is:
+
+
+
+
+
+
+
+
+
+
+Out of this, the second term  adds up to zero when summed over a full period of 
+the AC cycle. The first term constitutes 
+the real power flow from generator to consumers. It is convenient to 
+adopt the complex notation at this point:
+
+
+
+
+
+
+
+
+
+Now we are in a position to calculate  in eq-swing:
+
+
+
+
+
+
+
+
+
+For simplicity we here neglect ohmic losses in the grid such that
+the admittance  is purely imaginary, . Furthermore,
+ we assume that the magnitude of the voltage is constant throughout
+the grid,  for all node . Then the power
+simplifies to
+
+
+
+
+
+
+
+
+Substituting this result into the swing equation thus yields
+the equations of motion
+
+   I_j d^2 _jdt^2 + D_j d _jdt
+    = P_j^mech  - _k=1^N  V_0^2 B_jk  (_k - _j).
+   
+
+
+During the regular operation, generators as well  as consumers within the 
+grid run with the same frequency 
+  or 
+, respectively. 
+The phase of each element is then written as
+
+
+
+	
+where  denotes the phase difference to the reference 
+phase . We now insert the expression () 
+into equation () to obtain the evolution equations for the
+phase difference . One then obtains the oscillator model
+
+
+
+
+
+where
+
+     P_j &=& P_j^mech - D_j I_j 
+
+     _j &=& D_jI_j  
+
+    K_jk &=& V_0^2 B_jkI_j. 
+
+
+
+Alternative derivation using conservation of energy
+The equation of motion for all  can also be obtained from the energy 
+conservation principle: the generated or consumed energy
+ of each single element must equal the total energy given or taken from the grid plus the accumulated and dissipated energy of
+this element:
+
+
+
+
+Where, assuming only slow phase changes compared to the set frequency: 
+, we can write:
+
+
+&P^diss_i=_i(_i)^2=_i(+_i)^2_i(^2+2_i)
+
+&P^acc_i=12I_iddt(_i)^2 = I_i(+)
+
+&P^trans_ij=   -P^max_ij(_j-_i)
+
+
+Putting all this in eqn:grund yields the equation of motion:
+
+
+
+
+
+By assuming
+ and 
+ we again arrive at the same equation 
+eqn:osc-model derived 
+in the previous section:
+
+
+
+
+For our simulations we consider large centralized power plants generating  each. A synchronous generator of this
+size would have a moment of inertia of the order of . The mechanically dissipated power  usually is a small
+fraction of  only. However, in a realistic power grid there are additional sources of dissipation 
+, especially ohmic losses, which
+are not taken into account directly in the coupled oscillator model. Therefore we set
+ and  for large power plants. For
+a typical consumer we assume , corresponding to a small city. For a renewable power plant we assume . A major overhead power line can
+have a transmission capacity of up to . A power line connecting a small city usually has a smaller transmission
+capacity, such that  is realistic. We take 
+
+
+We note that this model is very similar to the so-called classical
+model from power engineering. However, this model considers only 
+ohmic losses whereas we assume all loads to be synchronous machines.
+An extension of this model including the voltage dynamics has recently 
+been introduced in . 
+
+
+@Debsankha: You can use these two derivations as building blocks for your own text at your will. 
+If you are not content you can write something new.
+
+The nature and bifurcations of steady states
+The loss of a steady state due to the variation of a parameter (e.g. decrease of transmission capacity  due to a damage of a transmission line or increase oft he load) corresponds to a desynchronization and thus to a power outage. Therefore it is essential to understand the properties of these bifurcations in detail.
+
+In the stable state both derivatives  and  are zero, such that
+
+
+
+
+holds for each element in the stable state.
+
+If we sum over all the equations, the following identity emerges:
+
+
+
+because  and the sin-function is antisymmetric. This simply 
+means that the sum of the generated power  must equal the sum of 
+the consumed power  in order for a 
+stable state to exist.  
+
+
+
+The Hamiltonian limit
+In the limit  the equations of motion can be rewritten as a hamilonian system
+
+   _j = v_j 
+   v_j = -_j
+
+with
+
+   = 12 _j  v_j^2 + V(_1,,_N) 
+
+  V = - _j P_j _j - 12 _i,j K_ij (_i - _j).
+
+However, one has to be careful about the domain of . In principle, the phases are only defined
+modulo  but  is not -periodic.
+
+
+The Fixed points and the bifurcations
+The location of the fixed points is independent of  and determined by 
+the algebraic equations eq-criter-steady-state. Now the question is: in addition to the location of the fixed points, are 
+the stability properties of them  also independent of ? This question is 
+especially important because in the hamiltonian limit (), the bifurcation structure of the system 
+is easier to study, the reason of which will be discussed in detail later.  
+  
+In order to answer the question, first we note that given the ordered set  
+of variables 
+
+, the Jacobian of the system is:
+
+
+
+
+
+
+
+
+
+
+
+Where  is given by
+
+
+
+
+
+
+
+
+It can very easily be shown that:
+
+
+If  is an eigenvalue of , then   is an 
+eigenvalue of . 
+
+Conversely, if  is an eigenvalue of , then 
+
+
+
+
+
+are two eigenvalues of .  
+
+
+Suppose  is an eigenvector of  with eigenvalue :
+*
+&Jv&=&v
+
+&(
+
+
+
+
+
+) 
+v_1
+
+v_2
+ &=&
+v_1
+
+v_2
+ 
+
+&-v_1-L(G)v_2&=&v_1
+
+&v_1&=&v_2
+
+&L(G)v_2&=&(-^2-)v_2
+
+
+
+
+
+
+
+
+Suppose  is a fixed point 
+of the system.   is elliptic in the 
+hamiltonian limit of the system iff all the eigenvalues of  are 
+nonnegative.  (This proves the equivalence to the Kuramoto model)
+
+
+In the Hamiltonian limit, due to Theorem , all the 
+eigenvalues of the system Jacobian at  are of the form
+
+
+
+
+
+ is elliptic iff all the eigenvalues of the Jacobian are purely 
+imaginary.  That is possible if all the eigenvalues of  are 
+nonnegative.  
+
+
+
+
+
+Suppose  is a ( independent) fixed point 
+of the system.  If  is elliptic/hyperbolic in the 
+hamiltonian limit of the system, 
+then it is a node/saddle for the non-hamiltonian system.  
+
+
+ Let us denote the eigenvalues of  by 
+. 
+
+Case 1: Suppose  is elliptic.  
+
+Due to Corrolary , .
+
+Now we look at the stability characteristics of  when .  
+Using Theorem  again, all 
+the eigenvalues of the system Jacobian at  are of the form
+
+
+
+
+Evidently, .  Hence  is a node.  
+
+Case 2: Suppose  is hyperbolic.  
+
+ Due to Corrolary ,  such that  
+.
+
+  
+Using Theorem  again, the system Jacobian at  has 
+one pair of eivenvalues given by
+
+
+
+
+Evidently,  and   . Hence  is a 
+saddle.  
+
+
+
+
+Therefore it is now clear that in order to understand the bifurcations in the 
+real-world system with positive  it is enough to study the 
+bifurcation structure of the Hamiltonian case where .  
+
+
+
+All the bifurcations in our system must be accompanied by an eigenvalue of 
+ becoming .  
+
+
+In the Hamiltonian case, the only possible bifurcation scenario is one 
+elliptic and one hyperbolic fixed point colliding with each other and both 
+vanishing.  (Is it really true?)
+
+Thanks to Corollary , we know that for a  fixed 
+point to be elliptic, all the eigenvalues of  must be 
+nonnegative.  Conversely, for a  fixed 
+point to be hyperbolic, at least one of the eigenvalues of  must be 
+nonpositive. 
+
+Therefore, the rest follows.  
+
+
+
+
+@all: This website contains almost all we need: 
+http://www.scholarpedia.org/article/Stability_of_Hamiltonian_equilibria. 
+
+
+Number of steady states
+The phase space of the oscillator model is of the form 
+, where each  denotes a circle and corresponds to 
+each angular co-ordinate  and each  corresponds to each angular 
+velocity . 
+
+It is a well known result of topology that every 
+fixed point of a function  defined on a compact orientable
+
+ manifold  onto itself can be
+assigned an index  and the sum of the indices of all the 
+fixed points is a property of the manifold and independent of the choice of 
+the function  :  
+
+
+
+
+In our system, in the hamiltonian limit, all fixed points are either elliptic 
+or hyperbolic, as shown in Corollary . 
+It can be shown that for hamiltonian systems 
+elliptic fixed points have  and a hyperbolic fixed point has 
+ .
+
+Therefore we have this useful property:
+
+
+
+
+
+This immediately implies that a bifurcation can happen in the system when an 
+elliptic and a hyperbolic fixed point collide with each other and vanish.
+
+
+So there should be lots of elliptic fixed points, in particular the same as the number of hyperbolic fixed point plus chi. For our simple example our phase space is a cylinder such that chi = 0. What's chi for the general phase space for N oscillators? But how does this result correspond to the results in the book of Machowski, p. 230 ff? 
+
+Example: a cycle with N oscillators (see my previous notes). Notably, this model allows for cycle flows (Example!). I suppose that the solution without cycle flows is most stable in the sense that it has the largest value of . We could also calculate the basin stability for the steady states. do cycle flows also exist in more complex grids?
+
+Elementary example
+
+To illustrate these facts, we first consider the simplest non trivial grid, a two-element system consisting of one 
+generator and one consumer. We assume that the power is balanced, i.e.  holds. Therefore, the mean 
+phase of the grid   is  constant and we concentrate on the dynamics of the phase difference
+. With  the equation of motion for this system reads
+
+   d^2dt^2 = P - ddt - 2K ( ) 
+   
+
+Two fixed points exist for . The physical reason is that a steady operation of the
+grid is possible only when the transmission capacity of the line is larger than the power which 
+must be transmitted. The location of the two fixed points and the eigenvalues of the Jacobian
+at this point indicating the spectral stability are given by
+
+  F_1:  ^* &=& P2K  
+
+   _^(1) &=& -2(2)^2-2K(P2K) 
+
+  F_2:  ^* &=& - P2K 
+
+    _^(2) &=& -2(2)^2+2K(P2K). 
+
+The fixed point  is stable: Depending on , the eigenvalues at the first fixed point are either 
+both real and negative or complex with negative real values. The fixed point  is unstable, as one of 
+the eigenvalues is always real and positive while the other one real and negative.
+
+At  these two fixed points vanish in an inverse saddle-node bifurcation. No steady operation is possible
+for  as the load exceeds the capacity of the link. 
+ The nature of this bifurcation becomes most obvious when we analyze a mathematically equivalent
+mechanical system, the motion in a tilted washboard potential.
+
+@Moritz: Can you please translate section 4.2 of you bachelor thesis, shorten it if possible and put it in here? Of course
+including the pictures.
+
+This mechanical analogon has been analyzed in great detail in statical physics (see  and references therin).
+In particular, a global stability diagram has been developed. For  no fixed point exists and the
+dynamics always converges to limit cycle. Fixed points exist for  as discussed above. If the damping is
+strong, all trajectories will eventually converge to teh fixed point . 
+In the regime of low damping, which should correspond to the operation of most grids, the fixed point and the
+limit cycle coexist. In this case, the limiting dynamics depends sensitively on the initial state of the power system.
+This case has recently been analyzed in detail also for complex network topologies in .
+
+
+
+
+
+
+
+
+
+
+
+
+
+What happens when a steady state is lost? 
+
+The loss of a stable steady state due to parameter variation corresponds to the desynchronization of the grid and consequently to a power outage. Therefore it is of high practical relevance to understand this bifurcation in detail.
+
+Observation 1: At the bifurcation point we have , as per Corollary . We can relate this to small perturbations around the steady state: Prior to an outage we have very low-frequency oscillations in the grid. As the frequency tends to zero, stability is lost.
+
+
+Observation 2: Stability can be lost due to an increase of the load, to the damage of a line, but surprisingly also by putting a new line into operation (see next section). 
+
+Observation 3: If we can assume that the relative phase at every edge is smaller that , we can find a nice graph-theoretic interpretation. Then,  corresponds to the algebraic connectivity, for which there a re plenty results. It goes to zero only if the meta-graph defined by the weights  disconnects into two or more fragments. This is equivalent to the fact that all edges between the components are fully loaded. If we proceed to the unstable region we have these fragments which can remain synchronous internally, but loose synchrony with each other. In particular, the fragments can relax to new phase-locked states at a frequency differing from the reference frequency. That is, all  are non-zero but equal within a fragment. The time-averaged power flow between the fragments is then zero.
+
+Observation 4:
+Surprisingly, the loss of a steady state is not equivalent to an overload (i.e. ) if phase differences can exceed .  Show this by an example in the 6-bus ring network. In this example there is a single overload , which does not cause an outage (because the grid is still 'connected' through the other branch of the circle). And at the bifurcation no edge is fully loaded.
+
+Question: Are there other characteristics, which are relevant to power engineering engineering, for the bifurcation point?
+
+Geometric frustration and Braess' paradox
+
+
+It is instructive to divide the defining equation 
+eq:criter-steady-state of a 
+stationary state  into two parts.
+First, every stationary state has to satisfy a dynamic condition 
+which is nothing but the conservation of the flow at every node
+of the network
+
+
+
+   & P_j + _K _j, S_j, = 0 
+              j=1,,N. 
+
+  &  S_j,   1 
+               edges  (j,).
+ 
+
+Here,  is the sum of all 
+flows from the neighboring nodes to the node , while 
+ is a source or sink term, respectively.
+The second part of this condition reflects the fact that the
+transmission capacity of each link is bounded, such that the
+magnitude of the flow  cannot exceed the capacity
+.  
+The dynamic condition () hold for
+all flow networks including also DC networks (i.e. Kirchhoff's
+rules) and biological network models . 
+
+To obtain a better understanding of the possible solutions,
+we slightly rephrase the dynamic condition  ().
+To this end we label all the edges in the network with .
+As the flows are directed, we have to keep track of the ordering
+of the vertices connected by the edge . That is, each  
+corresponds to a directed link  in the following. The ordering
+is arbitrary but must be kept fixed.
+Then we write  and 
+for the flow over a link . 
+Furthermore, we define the edge incidence matrix
+ via
+
+   K _j,e = 
+   
+
+
+
+ .
+
+The dynamic condition () then reads
+
+
+
+   & P_j + _e=1^L K _j,e S_e = 0 
+              j=1,,N. 
+       
+
+  &  S_e   1 
+              e = 1,,L.
+  
+ 
+
+The rank of  is  such that the solutions 
+of the linear set of equations () span an afine 
+subspace of  whose dimension  is . 
+Physically speaking, teh dynamical condition is just the
+conservation of flow at each node. The homogeneous 
+solutions of the system () are just the cycle
+flows which do not affect flow conservation. As the number
+of fundamental cycles in a network is  , the dimension
+of the solution space is also given by .
+The condition () defines a bounded convex 
+polytope in . Physically speaking, this condition
+ensures that no link is overloaded. 
+In many important applications  is much larger than 
+the number of nodes , such that the dynamical
+conditions typically yield a large submanifold of solutions
+as candidates for stationary states. However, the set of
+solutions can also be empty if the capacities 
+are too small such that the polytope does not intersect
+the afine subspace.
+  
+
+Second, there is a geometric condition.  We state the conditions as follows.
+A stationary state exists if the flows 
+
+satisfy the dynamical conditions () 
+and if  
+
+     _j such that  
+    S_j, = (_- _j).
+  
+
+We note that there are always two solutions for the phase 
+difference  given a value
+of :
+
+     && _j,^+ = (S_j,) 
+      or 
+
+    && _j,^- = -  (S_j,),
+      
+
+which both have to be considered.
+
+We now rephrase this condition in a more instructive way.
+To this end we assume that we have already obtained a solution
+of the dynamic conditions (). Then we can try to
+succsesively assign a phase  to every node  in the
+network. Starting at a node  with an arbitrary phase
+, we assign the phases of all neighboring nodes
+ such that .
+We then proceed in this way through the complete network
+to assigne the phase of an arbitrary node ,
+
+   _j_n = _j_0 + _s=0^n-1
+      _j_s,j_s+1,
+   
+
+where  is an arbitrary path form
+ to . 
+In the general case, however, a given node  can be reached
+from  via a multitude of different paths. To define a unique
+set of phases that satisfies the geometric condition (),
+we must assure that Eq. () yields a unique 
+phase regardless which path is taken from  to .
+This is equivalent to the condition, that the phase 
+differences over every cycle in the network 
+must add up to zero,
+
+       
+    && _cycle _j, = 0
+        (mod  2 ) 
+
+where  is one of the solutions (). 
+Furthermore, one only has to consider the fundamental
+cycles of the network which form a basis for the cycle space.
+If Eq. () is satisfied for all fundamental cycles, it is 
+satisfied for all simple cycles of the network.
+Thus, we can refomulate the conditions for the
+existence of a stationary state () as follows.
+
+
+A stationary state exists if the flows 
+   
+satisfy the dynamics conditions ()  and if
+the geometric condition () is satisfied for
+all fundamental cycles in the network.
+
+
+
+
+
+The previous reasoning shows that we can face the following
+situation: Given an oscillator network characterized by the
+frequancies  and the capacity matrix ,
+we can find a solution of the dynamical conditions, such that
+the flow is conserved at all nodes of the network. Nevertheless,
+no steady state exists as these solutions are incompaticle 
+to the geometric conditions. In this case we say that phase
+locking is inhibited due to geometric frustration. We 
+summarize this in a formal definition before giving some
+examples for the importance of this phenomenon. 
+
+
+
+An oscillator network is said to be geometrically 
+frustrated if a solution of the dynamic conditions 
+() exits, but all solutions are incompatible
+to the geometric conditions () such 
+that no stationary state exists.
+
+
+
+This definition seems unfamiliar thinking of the common examples 
+of geometric frustration in condensed matter theory. However, it is 
+completely compatible to more general definitions based on probability
+theory (see, e.g., ). In such a generalized framework
+geometric frustration in defined as follows.
+Given  (stochastic) variables  and  pair
+distribution or correlation functions . The main question 
+is: Is there a joint probability distribution  which
+yields all the pair distribution functions as marginals? If such
+a distribution does not exist, the system is called gemotrically
+frustrated. Our definition is a direct concretisation of this
+general definition. For each edge  of the network, the 
+dynamical condition ()  yields a correlation function for the phases
+ of the adjacent nodes. The main question is 
+whether there correlations are compatible such that we can 
+find a unique set of phases.
+
+Examples and applications
+
+In this section we discuss the importance of geometric aspects 
+for the stationary states of an oscillator network with different
+topologies. In particular, we show that geometric frustration 
+can inhibit phase locking, which may lead to a very 
+counter-intuitive effects.
+
+
+Trees do not suffer from frustration.
+
+By definition, a tree does not contain any cycle such that
+the geometric condition () does not apply. 
+Therefore, the calculation of a steady state on a Kuramoto 
+tree reduces to the solution of the dynamic condition 
+(), which is a linear set of equations.
+We note that if a solution exists it is generally not unique
+because there are always two solutions  () 
+for the phase difference along an edge unless .
+If  for each edge we find  different 
+solutions.
+
+
+Multiple solutions in cycle
+
+We now consider the simples case of a cyclic network with only 
+three nodes and three links with equal strength . The 
+dynamical condition for the existence of a steady state then
+reads
+
+   K  0 & 1 & -1 
+ -1 & 0 & 1 
+ 1 & -1 & 0   
+   
+    S_12 
+ S_23 
+ S_31 
+  =  P_3 
+ P_1 
+ P_2 
+     
+
+ and . In particular for  the
+set of possible solutions is just the a cycle flow 
+.
+
+Taking into account that there are two possible solutions for the
+phase difference, see Eq. , the geometric condition
+can be written as
+
+      (S_12) + (S_23) +  (S_31) &=& 0    
+ 
+      (S_12) + (S_23)  -  (S_31) &=& 
+ 
+      (S_12) - (S_23)  + (S_31) &=& 
+ 
+   - (S_12) + (S_23)  +  (S_31) &=& 
+    
+
+Figure  shows the affine set defined by 
+Eq. ()  and one branch of the solution
+space defined by  (). One observes that 
+there are three intersections corresponding to 
+three stationary states. This shows that stationary
+states are generally not unique, also in the presence
+of cycles.
+The three remaining branches of the solution space
+of Eq. () do not yield additional
+solutions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Frustration induces discreteness. 
+
+We now extend the above example to a single cycle with an
+arbitarry number of  nodes with  the same frequency 
+. All links have an equal strength  as above.
+The dynamic conditions for a stationary states are then given by
+
+  && F_j+1,j = F_j,j-1  F j  
+ 
+  && F K.
+
+ The geometric condition yields
+
+   && N arcsin(F/K) = 0 (mod 2 ) 
+
+   && F = K (2n/N), n Z 
+  
+   && _j+1 - _j = nN 2 
+
+This shows that the dynamic condition has a continuum of 
+solutions while the geometric condition induces a 
+quantization of the phase differences 
+. 
+
+In total we find  different stationary states of this kind
+with ,
+taking into account that the phases are only defined modulo
+. To determine the dynamic stability of these states,
+we write the phases as , where 
+the star denotes the steady state value. To leading oder, the 
+equations of motion for the  are then given by 
+
+   ddt _j &=& K (2n/N) 
+      ( _j+1 + _j-1 - 2 _j ) 
+
+     &=:& _i J_j,i _i
+
+The eigenvalues of the Jacobian matrix  are given
+by
+
+     eig(J) = -4 K (2n/N) ^2(k/N),
+         k = 1,,N. 
+
+Therefore we find that all steady states with 
+ or  are linearly stable.
+ 
+
+This example is very simple but shows two important results
+of ours most clearly which hold in general.
+First, the Kuramoto model ()
+and the power grid model () allow for 
+steady states with a persitent current around a cycle.
+Interestingly, theses states are phase locked but not phase
+ordered in the sense that the phase order parameter
+
+   r e^i  := 1N _j e^i _j 
+   
+
+vanishes exactly.
+Second, the geometric condition induces the 
+discreteness of the phase differences
+although the dynamic condition allows for arbitrary
+large cycle flows.
+
+Braess' paradox
+
+
+Here we introduce a special example which illustrates the
+paradoxial efffects of geometric frustration most clearly.
+We consider the oscillator network depicted in Fig.  (a)
+consisting of  nodes placed on a cyclic network.
+In particular, we analyze what happens if the capacity
+of the upper edge is increased from  to 
+. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The dynamic condition for this network reads
+
+   0 = P_j + ( K_j+1,j S_j+1,j  - K_j,j-1 S_j,j-1 ),
+  
+
+and , identifying node  with .
+ For notational convenience,
+we define the vector 
+
+   S = (S_6,1 ,S_1,2, , S_5,6 ).
+
+The solutions of the linear system of equations () 
+span a one-dimensional affine space parametrized by a real 
+number ,
+
+   S = P_0K 
+      ( S_a -  S_b ).
+   
+
+The vector  is the 
+inhomogeneous solution of the linear system (), 
+and the vector is a homogeneous 
+solution corresponding to a cycle flow.
+Evaluating the condition  yields
+a necessary condition for the existstence of a stationary state
+
+     K P_0.
+
+
+For  this condition is also sufficient for
+the existence of a stationary state. If the capacity of the
+upper link increases, , geometric frustration
+inhibits phase locking. A solution of the dynamical conditions
+always  exists for   , but this can become 
+incompatible with the geometrix condtion as illustrated 
+in the stability diagram  in Figure  (b). No steady
+state exists in the white region of parameter space. 
+In the remaining region, we have plotted the Kuramoto phase 
+order parameter ()
+in a color color.
+One clearly observes that the unstable region increases 
+with . This leads to the paradoxial effect that
+an increase of local transmission capacity reduces
+the ability of the network to support a phase locked 
+state. This behavior can also be seen as an example of 
+Braess' paradox which has been first predicted for traffic 
+network .
+ 
+
+Conclusion
+Let Marc write this.
+
+
+
+
+
+
+
+
+apsrev
+
+
+
+
+

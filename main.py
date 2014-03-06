@@ -1,5 +1,7 @@
+import handlers
 from handlers import *
-import os
+import os, commands
+import nltk.corpus
 
 #handlermap={'stat':statistics_handler, 'variation_detect':variation_detect_handler}
 
@@ -17,7 +19,7 @@ def read_conf(config):
 
 	for confline in conflines:
 		fields=confline.split('\t')
-		handler=handlermap[fields[0]]
+		handler=handlers.handlermap[fields[0]]
 		
 		if len(fields)>1:
 			paramlist=[]
@@ -28,7 +30,6 @@ def read_conf(config):
 			res.append((handler,tuple(paramlist)))
 		else:
 			res.append((handler,()))	
-
 	f.close()
 	return res
 
@@ -45,6 +46,7 @@ def apply_rules(text,config):		#must be passed an NLTK corpus and a config file
 	parsed_config=read_conf(config)
 
 	for handler,params in parsed_config:
+		print params
 		output=handler(text,*params)
 		ui_handler(output)
 
@@ -55,14 +57,23 @@ def parse_raw(source,typ='txt'):
 	"""
 	corpus_root=os.path.dirname(source)
 	filename=os.path.basename(source)
-
-	return nltk.corpus.PlaintextCorpusReader(corpus_root, filename)	#loads all files w/ name ending in txt
+	print corpus_root, filename	
+	if typ=='txt':
+		return nltk.corpus.PlaintextCorpusReader(corpus_root, filename)	
+	elif typ=='tex':
+#Needs detex to be installed, assumes I/O redirection works
+		txtfilename=filename+".txt"
+		commands.getoutput("detex %s/%s > %s/%s"%(corpus_root,filename,corpus_root,txtfilename))
+		return nltk.corpus.PlaintextCorpusReader(corpus_root, txtfilename)	
+	else:
+		pass
+			
 
 
 
 if __name__=='__main__':
-	import nltk.corpus
-	text=parse_raw("./texts/thesis.txt")
+#	text=parse_raw("./texts/thesis.txt",typ='txt')
+	text=parse_raw("./texts/epjst1.tex",typ='tex')
 	apply_rules(text,"sample.conf")
 
 
