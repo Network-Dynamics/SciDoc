@@ -1,0 +1,3808 @@
+Investigating Piecewise Smooth Hybrid
+Systems
+5 TH Y EAR I NTEGRATED MS D ISSERTATION
+
+BY
+
+D EBSANKHA M ANIK
+Under the Supervision of
+
+P ROF. S OUMITRO B ANERJEE
+
+D EPARTMENT OF P HYSICAL S CIENCES
+I NDIAN I NSTITUTE OF S CIENCE E DUCATION AND R ESEARCH ,
+K OLKATA
+M OHANPUR , N ADIA
+M AY 2013
+
+Certificate
+This is to certify that the thesis entitled “Investigating Piecewise Smooth
+Hybrid Systems" being submitted to the Indian Institute of Science Education
+and Research-Kolkata in partial fulfillment of the requirements for the award of
+the Integrated BS-MS degree, embodies the research work done by Debsankha
+Manik under my supervision at IISER-Kolkata. The work presented here is
+original and has not been submitted so far, in part or full, for any degree or
+diploma of any other university/institute.
+
+Prof. Soumitro Banerjee
+Professor,
+Department of Physical Sciences,
+Indian Institute of Science Education and Research, Kolkata
+
+Preface
+Piecewise smooth dynamical systems are of particular interest because of their
+ubiquity and the plethora of novel behaviours they exhibit. There are very elegant existing frameworks for analyzing different kinds of border collision bifurcations occurring in those systems. These include the classic work on border
+collision of equilibria by Feigin [1], analysis of grazing bifurcations using the
+ZDM (Zero-time Discontinuity Mapping) formalism developed by Nordmark
+et al. [2] and the impact map approach developed by Bernardo et al. [3, p. 10].
+Using the ZDM formalism, Banerjee and Kundu analyzed the soft impacting oscillator system and predicted the onset of chaos immediately following
+the grazing of a limit cycle except when the ratio of the damped natural frequency of the system and the forcing function frequency are in integral or half
+integral ratios. Experiments have roughly borne out this prediction, except for
+the fact that chaos has been observed to vanish in a small neighbourhood of those
+values predicted analytically. Here we have used the impact map formalism
+to derive the necessary conditions for chaos to vanish and matched the results
+with the experimental results.
+It has been reported previously that the lifetimes of transients in systems
+exhibiting grazing bifurcations follow a power law pattern as the parameter
+value approaches the grazing value. We have observed the same characteristics
+in a simple harmonic oscillator with hard impacts. We found that the transient
+lifetimes were orders of magnitude larger than what they should have been
+if the impacts did not occur. We have attempted to explain this behaviour by
+defining a quantity which represents how likely is a system to undergo impacts
+for a set of parameter values.
+
+Debsankha manik
+IISER Kolkata, India
+May 2013
+
+i
+
+Acknowledgement
+I would like to thank my mentor, Prof. Soumitro Banerjee for the support
+and direction that I have received from him. I would also like to thank my
+colleagues Abhranil Das and Dibyajyoti Maity, with whom I was fortunate
+enough to share my ideas during our weekly meetings and who never hesitated to raise important questions and give various suggestions.
+I would like to thank the computer section of IISER Kolkata for maintaining the excellent Meghnad cluster, where most of the simulations vital for the
+success of this project were run.
+I also thank Prof. Prasanta Panigrahi and Prof. Bhavtosh Bansal for agreeing to be examiners for my thesis presentation.
+
+Debsankha manik
+IISER Kolkata, India
+May 2013
+
+ii
+
+Contents
+Preface
+
+i
+
+1
+
+Introduction
+1.1 Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.2 Classification of piecewise smooth systems . . . . . . . . . . . .
+1.2.1 Piecewise smooth maps . . . . . . . . . . . . . . . . . . .
+1.2.2 Piecewise smooth flows . . . . . . . . . . . . . . . . . . .
+1.2.3 Piecewise smooth hybrid systems . . . . . . . . . . . . .
+1.3 Bifurcations in piecewise smooth systems . . . . . . . . . . . . .
+1.3.1 Border collision of equilibria . . . . . . . . . . . . . . . .
+1.3.2 Grazing bifurcation of limit cycles due to border collision
+1.4 Literature survey . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4.1 ZDM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4.2 Vanishing chaos . . . . . . . . . . . . . . . . . . . . . . . .
+1.4.3 Impact map . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4.4 Numerical computation of fixed points . . . . . . . . . .
+1.4.5 Lifetime of transients . . . . . . . . . . . . . . . . . . . . .
+1.5 Scope of present work . . . . . . . . . . . . . . . . . . . . . . . .
+
+1
+1
+2
+2
+3
+4
+5
+7
+11
+13
+13
+14
+20
+21
+22
+22
+
+2
+
+Our system
+2.1 Description . . . . . . . . . . . . . . . . . . .
+2.1.1 Solution disregarding the boundary
+2.2 Approximate Poincaré map . . . . . . . . .
+2.3 Numerical computation of the fixed points
+2.3.1 The procedure . . . . . . . . . . . . .
+2.4 Impact map and its Jacobian . . . . . . . . .
+2.4.1 Derivation of the map . . . . . . . .
+2.4.2 Fixed points of the map . . . . . . .
+2.4.3 Stability analysis at grazing . . . . .
+2.5 Long transients . . . . . . . . . . . . . . . .
+2.5.1 The no-collision area . . . . . . . . .
+2.6 Conclusion . . . . . . . . . . . . . . . . . . .
+
+23
+23
+24
+24
+25
+26
+29
+29
+31
+33
+34
+35
+42
+
+A Calculations for approximate Poincaré map
+iii
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+45
+
+Chapter 1
+
+Introduction
+1.1
+
+Overview
+
+Theory of dynamical systems enables us to gain valuable insights into many
+problems. By using the powerful tools it provides, in many cases we can explain how a system will behave when the actual equations governing its evolution are too difficult to solve analytically. This approach has been proved
+time and again to be extremely useful in a diverse range of areas: fluid flows,
+electrical circuits, ecological systems etc.
+However, conventional treatments of the subject generally places the demand that the systems be describable in terms of smooth functions of the dynamical variables. There are valid reasons for doing so. For a system’s stability
+analysis, the Jacobian plays a role of paramount importance. But its existence
+cannot be guaranteed everywhere in the phase space for non smooth systems.
+Figure 1.1: Trajectory of a bouncing ball : a piecewise smooth system
+
+Unfortunately, many systems we need to deal with regularly are piecewise
+smooth: switching circuits in power electronics [4], walking robots [5], systems
+exhibiting sliding or chattering motion [6, 7], impact print hammers [8, 9] etc.
+One subclass of these systems is called piecewise smooth systems. The equation
+governing the evolution of these system changes the moment the system coordinates cross what is known as a “switching manifold”, which is a surface
+1
+
+CHAPTER 1. INTRODUCTION
+
+2
+
+with dimension lower than that of the phase space. Between any two of those
+switches, the system evolves smoothly.
+For example, a ball bouncing against the floor under the influence of gravity
+constitutes such a system. Between any two bounces, the height of the ball h is
+¨ = − g/m, where g is the acceleration due to gravity and m is the
+described by h
+mass of the ball. The solution to the equation is a parabola, as depicted in Fig
+1.1, which is of course a smooth function. But at the instance of the bounce, the
+velocity of the ball changes changes in a non-smooth manner. Despite the simplicity of the system, it shows rich dynamical behaviour for certain parameter
+values [10].
+
+1.2
+1.2.1
+
+Classification of piecewise smooth systems
+Piecewise smooth maps
+
+Definition 1.2.1. A map described by a finite set of smooth maps:
+x → Fi ( x, µ) ∀ x ∈ Si
+
+(1.1)
+
+is called a piecewise smooth map if:
+1.
+Si
+∪ i Si
+Si ∩ S j
+
+∈ X
+= X
+= ∅,
+
+∀i
+i=j
+
+(X being the phase space of the system)
+2. Each of the functions Fi is smooth in both the state x and the parameter µ
+throughout Si .
+Example: Tent map
+
+x n +1 = f µ ( x n ) =
+
+
+
+µxn
+
+
+
+µ (1 − x n )
+
+for xn <
+
+1
+2
+
+(1.2)
+for
+
+1
+2
+
+≤ xn
+
+Now we will define a few quantities to be used extensively in the next sections.
+Definition 1.2.2. The intersection Σij between the closures (i.e. the set and its limit
+points) of any pair of Si ’s are called the switching manifolds of the system:
+¯i ∪ S
+¯j
+Σij := S
+
+CHAPTER 1. INTRODUCTION
+
+3
+
+Figure 1.2: Tent map
+
+f(x)
+0.25
+
+µ
+2
+
+0.15
+
+0.1
+
+0.05
+
+0
+0
+
+0.5
+
+1
+
+Example: In case of the Tent map (1.2), there is one switching manifold consisting of a single point: Σ12 = {1/2}.
+Definition 1.2.3. For a point x0 ∈ σij , the leading order term in the power series
+expansion of Fi ( x ) − Fj ( x ) about x0 is called the order of singularity of the map at
+the point x0 .
+Example:
+
+In case of tent map,
+F2 ( x ) − F1 ( x ) = 2µx − µ
+1
+= 0 + 2µ( x − )
+2
+
+(1.3)
+(1.4)
+
+Therefore the order of singularity is 1.
+It is obvious that if the map has a discontinuity at a point, the order of singularity at that point will be 0.
+We will later see that piecewise smooth maps arise naturally as a result of
+taking Poincaré sections of piecewise smooth flows (Something we will define
+right now).
+
+1.2.2
+
+Piecewise smooth flows
+
+Piecewise smooth flows are defined by extending the concept of piecewise
+smooth maps to continuous time systems:
+
+CHAPTER 1. INTRODUCTION
+
+4
+
+Definition 1.2.4. A flow described by a finite set of ODE’s:
+˙ = Fi ( x, µ)
+x
+
+∀ x ∈ Si
+
+(1.5)
+
+is called a piecewise smooth flow if:
+1.
+Si
+
+∪ i Si
+Si ∩ S j
+
+∈ X
+= X
+= ∅,
+
+∀i
+i=j
+
+2. Each of the vector fields Fi is smooth in both the state x and the parameter µ
+throughout Si .
+3. Each of the vector fields Fi admits a solution ϕi ( x ):
+˙ i ( x, t)|t=0 = Fi ( x ) ∀ x ∈ Si
+ϕ
+
+(1.6)
+
+that is smooth in both the state x and the parameter µ throughout Si .
+
+Figure 1.3: Impact oscillator
+
+k1
+m
+
+G (t)
+
+k2
+
+γ
+
+Example: Oscillator with soft impacts
+Consider a simple harmonic oscillator driven by a driving force G (t) which
+hits against another spring attached to the wall at a distance σ from its equilibrium position. The equation of motion is given by:
+
+
+˙ − k1 x + G (t)
+for x < σ
+−γ x
+¨=
+mx
+(1.7)
+
+
+˙ − k1 x − k2 ( x − σ ) + G (t) for x ≥ σ
+−γ x
+
+1.2.3
+
+Piecewise smooth hybrid systems
+
+Definition 1.2.5. A system described by a set of ODE’s and a set of reset maps:
+˙ = Fi ( x, µ), ∀ x ∈ Si
+x
+¯i ∪ S
+¯j
+x → Rij ( x, µ), ∀ x ∈ Σij = S
+
+(1.8)
+(1.9)
+
+CHAPTER 1. INTRODUCTION
+
+5
+
+is called a piecewise smooth hybrid system if all the Ri ’s, Fi ’s as well as the associated flows ϕi ’s are smooth in both x and the parameter µ in the appropriate regimes.
+
+Figure 1.4: Hard impacting oscillator
+
+k1
+m
+
+G (t)
+
+γ
+
+Example: Oscillator with hard impacts
+Consider a driven simple harmonic oscillator with a hard wall at a distance
+σ from its equilibrium position, as depicted in Fig 1.4. The equation of motion
+is:
+¨ = −γ x
+˙ − k1 x + G (t)
+mx
+
+( x, v) → ( x, −rv)
+
+for x < σ
+
+(1.10)
+
+for x = σ
+
+(1.11)
+
+Where r is the coefficient of restitution, which is 1 for perfectly elastic collisions.
+
+1.3
+
+Bifurcations in piecewise smooth systems
+
+Piecewise smooth dynamical systems, quite naturally, can show all the usual
+types of dynamical behaviour shown by smooth dynamical systems : period
+doubling [11, p. 166-170] bifurcations, saddle-node [11, p. 109] bifurcations etc.
+However, piecewise smooth systems exhibit a plethora of interesting behaviours which involve the sudden change in the system dynamics at the switching manifolds and hence, which are not possible in smooth systems. An extensive mathematical framework to study these behaviours was first published in
+the Russian literature as early as the seventies of the last century by Mark Feigin [1, 12, 13]. Then these types of behaviours were named C-bifurcations. Now
+they also go by the name of border collision bifurcations. Examples include border collision of equilibria [1], grazing bifurcation of limit cycles [14] and sliding bifurcations [15,16]. We will briefly review a few of these novel behaviours
+now.
+
+CHAPTER 1. INTRODUCTION
+
+6
+
+Figure 1.5: A few cases of border collision bifurcations
+
+B
+
+A
+
+Bifurcation of equillibria
+
+B
+
+A
+
+Grazing bifurcation
+
+B
+
+A
+
+Sliding bifurcation
+
+CHAPTER 1. INTRODUCTION
+
+1.3.1
+
+7
+
+Border collision of equilibria
+
+Consider a piecewise smooth map:
+˙ =
+x
+
+F1 (x)
+F2 (x)
+
+: H (x) < 0
+: H (x) > 0
+
+(1.12)
+
+Where H ( x ) = 0 defines the switching manifold:
+S1 = { x : H ( x ) < 0 }
+S2 = { x : H ( x ) ≥ 0 }
+Suppose there exists an equilibrium point of the piecewise smooth system
+∗ ( µ ) in the region S of the phase space:
+x1
+1
+∗
+F1 ( x1
+(µ)) = 0
+
+Now, as the parameter µ is changed, this equilibrium point will, in general, move in the phase space. Sometimes it may happen that for parameter
+∗ ( µ ) crosses the boundary and lands up in the revalues µ > µ0 this point x1
+˙ = F1 ( x ) is not the correct ODE in the first place!
+gion S2 . But in that region x
+∗ ( µ ) is no longer a fixed point. We call it a virtual fixed point of
+Therefore x1
+the system and such a phenomenon is called “border collision of equilibrium”.
+This phenomenon was first studied by Marc Feigin in case of discrete time systems [17](later extended by Bernardo et al. to continuous time systems [18])
+where he classified the dynamical behaviours that can take place when equilibria crosses the switching manifold and derived the necessary conditions for
+each of them in terms of the eigenvalues of the Jacobians at both sides of the
+switching manifold. We will now briefly discuss this approach.
+Types of border collision of equilibria
+Consider a piecewise smooth flow described by (1.12). Let’s switch to a coordinate system such that the equations of motion look like:
+˙ =
+x
+
+F1 (x, µ)
+F2 (x, µ)
+
+: xn < 0
+: xn ≥ 0
+
+(1.13)
+
+(Where xn denotes the n-th component of x.) This can always be done, as
+explained in [19]. Suppose that for every value of the parameter µ, ∃ two fixed
+points of the flow, one in each side of the switching manifold:
+∗
+F1 (x∗
+1 , µ ) = 0, x1 n ≤ 0
+
+(1.14)
+
+≤0
+
+(1.15)
+
+F2 (x∗
+2 , µ)
+
+= 0,
+
+∗
+x2
+n
+
+We can also assume without loss of generality that the border collision takes
+place for the parameter value µ = 0 at the point x = 0:
+∗
+x∗
+1 = x2 = 0 if µ = 0
+
+CHAPTER 1. INTRODUCTION
+
+8
+
+Then we can locally linearize the map:
+A1 x + Bµ
+A2 x + Bµ
+
+˙ =
+x
+
+: xn < 0
+: xn < 0
+
+Where:
+∂F1
+∂x
+
+Ai =
+
+x =0
+
+and
+B=
+
+∂F1
+∂µ
+
+=
+µ =0
+
+∂F2
+∂µ
+
+µ =0
+
+(Assuming the flow to be continuous at x = 0).
+Also, A1 and A2 can differ only in the n−th column (Again due to continuity, this time at µ = 0).
+Now (1.14) becomes:
+A1 x ∗
+1 + B¯ = 0
+
+(1.16)
+
+A2 x ∗
+2
+
+(1.17)
+
++ B¯ = 0
+
+Assuming Ai ’s are invertible:
+∗
+xi
+= −Ai −1 Bµ = −
+
+adj(Ai )
+Bµ
+det(Ai )
+
+(1.18)
+
+The fixed points x∗ i will be real iff
+∗
+∗
+x1
+< 0, x2
+> 0.
+n
+n <0
+
+Now, from (1.18)
+∗
+x1
+=
+k
+
+Where,
+
+∗
+c1
+
+k
+
+det(A1 )
+
+∗
+µ, x2
+=
+k
+
+∗
+c2
+k
+
+det(A2 )
+
+(1.19)
+
+∗
+ci
+= [− adj(Ai )B]k
+k
+
+∗ = c∗ := C
+Because A1 differs from A2 only in n−th column, c1
+2n
+n
+Therefore we have:
+∗
+x1
+=
+n
+
+C
+C
+∗
+µ, x2
+=
+µ
+k
+det(A1 )
+det(A2 )
+
+(1.20)
+
+CHAPTER 1. INTRODUCTION
+
+9
+
+Figure 1.6: Border collision of equilibria
+
+B
+
+A
+
+B
+
+A
+
+Case 1
+
+Case 2
+
+Cases:
+∗ and x ∗ always have opposite signs: In that
+1. det(A1 )det(A1 ) < 0: x1
+2n
+n
+case, before border collision, there’d be 2 real (or virtual) fixed points in
+opposite sides of the switching manifold. As the parameter is changed,
+they’d simultaneously suffer border collision and become virtual (or real)
+fixed points.
+∗ and x ∗ always have same signs: In that case,
+2. det(A1 )det(A1 ) > 0: x1
+2n
+n
+∗
+∗ virtual , and after border collision x∗
+initially x1 (say) will be real and x2
+1
+∗
+will become virtual and x2 real.
+
+Period doubling at border collision of equilibria
+Sometimes it may happen that after a fixed point undergoes border collision,
+a period-2 orbit emerges. This phenomenon was also studied in great detail
+by [17]. Here we discuss in brief a very important necessary condition for this
+to happen.
+Claim 1.3.1. Consider a piecewise smooth map of the form (1.1):
+
+
+ f 1 ( xn , µ) for xn < 0
+x n +1 = f ( x n , µ ) =
+
+
+f 2 ( xn , µ) for xn ≥ 0
+
+(1.21)
+
+∗ < 0 so long as the parameter µ < 0. Suppose
+Suppose ∃ a fixed point of the map x1
+∗
+that when µ equals 0, x1 suffers border collision and increasing µ further, a perioddoubling bifurcation occurs. Then the Jacobian of the map must suffer a discontinuity
+at 0, the point of border collision at the parameter value µ = 0
+
+CHAPTER 1. INTRODUCTION
+
+10
+
+Figure 1.7: An example of period doubling bifurcation at grazing
+(note the discontinuity of the derivative at the switching manifold)
+(a) Before border collision: period 1
+
+5
+
+f(x)
+x
+cobweb
+
+4
+
+x n +1
+
+3
+2
+1
+0
+-1
+-2
+
+-1
+
+0
+
+1
+
+2
+xn
+
+3
+
+4
+
+5
+
+(b) After border collision: period 2
+
+5
+
+f(x)
+x
+cobweb
+
+4
+
+x n +1
+
+3
+2
+1
+0
+-1
+-2
+
+-1
+
+0
+
+1
+
+2
+xn
+
+3
+
+4
+
+5
+
+CHAPTER 1. INTRODUCTION
+
+11
+
+Proof. Here we will consider the 1-dimensional case. A period doubling bifurcation occurs if on changing the parameter value of a system,
+1. The fixed point of the first composition of the map either no longer exists
+or loses stability.
+2. A fixed point in the second composition of the map either gets created or
+becomes stable.
+Suppose that after border collision, this period-2 orbit is now stable:
+f 1 ( x1 ) = x2 , x1 < 0
+f 2 ( x2 ) = x1
+For stability, the derivative of the second composition must be less than 1
+in magnitude:
+d
+f 2 ( f 1 ( x1 )) < 1
+dx
+f 1 ( x1 ) f 2 ( x2 ) < 1
+Now, immediately after border collision, 0 < µ
+1, the period-2 orbit will
+be very close to the original period-1 fixed point: −1
+x1 < 0, 0 < x2
+1.
+Therefore
+f 1 (0) f 2 (0) < 1
+Now, supposing the Jacobian suffers no discontinuity, this condition can be
+satisfied only if:
+(1.22)
+f 1 (0) < 1, f 2 (0) < 1
+But if that is the case, then the fixed point of the first composition of the
+map (which was an attractor before the border collision and since the map is
+assumed to be continuous in the parameter µ, is still in a neighbourhood of
+0), is still an attractor. But this contradicts the necessary condition for a period
+doubling bifurcation (i.e. the fixed point of the first composition must lose
+stability). Therefore condition (1.22) can only be satisfied if the Jacobian suffers
+a discontinuity at border collision.
+For a more general proof applicable for systems of any dimensionality,
+please refer to [17, 18].
+
+1.3.2
+
+Grazing bifurcation of limit cycles due to border collision
+
+The phenomenon of a limit cycle grazing the switching manifold of a system is
+encountered very frequently. These systems have been studied extensively by
+Dankowicz and Nordmark [20], Bernardo et al. [14], Banerjee and Kundu [21]
+etc.
+
+CHAPTER 1. INTRODUCTION
+
+12
+
+Consider a piecewise smooth flow as defined in (1.5):
+˙=
+x
+
+F1 ( x )
+F2 ( x )
+
+∀ H (x) ≤ 0
+∀ H (x) > 0
+
+(1.23)
+
+Suppose there exists an orbit (henceforth assumed to be period-1, for sake of
+simplicity) which grazes against the switching manifold defined by the equation H ( x ) = 0 at a point 0. By construction, H (0) = 0. Now we’d like to know
+how initial conditions starting very close to this stable grazing orbit behave.
+There exists a very powerful method of analyzing the stability of closed orbits
+of flows which goes like this:
+1. Take a Poincaré section, which is basically a plane P with dimensionality
+1 less than that of the phase space. Especially in case of systems driven
+by an external periodic force with time period T, this section is generally taken by looking at the system at t = nT (the so-called stroboscopic
+Poincaré section). Suppose the closed orbit intersects this Poincaré plane
+at a point x0 .
+2. Now choose a point x1 very close to x0 and see where it lands up on the
+Poincaré plane after time T. This will define a so-called Poincaré map
+Π:P→P
+3. By construction, x0 is a fixed point of the map Π. Hence it can be locally
+linearized:
+Π( x ) − x0 ≈ J ( x0 )( x − x0 )
+Where J =
+
+∂Π
+∂x .
+
+4. The eigenvalues of the Jacobian determine the stability of the grazing orbit. If all the eigenvalues are < 1 is magnitude then it is stable, otherwise
+not.
+As depicted in Fig 1.8, when grazing takes place, certain initial conditions
+close to the grazing orbit give rise to non-impacting orbits and others give rise
+to impacting orbits.
+Let a very important fact be noted here: The Poincaré map derived from a
+piecewise smooth flow will be a piecewise smooth map: the switching manifold being
+the collection of points x ∗ ∈ P such that orbits starting from them grazes the
+switching manifold of the actual flow.
+As we showed in Claim 1.3.1, the Jacobian so obtained will have to be discontinuous across the switching manifold for a period doubling cascade to take
+place after grazing.
+In the next section we will discuss a way of obtaining the Poincaré map Π
+for piecewise smooth flows: the ZDM method.
+
+CHAPTER 1. INTRODUCTION
+
+13
+
+Figure 1.8: Grazing orbit
+
+Σ
+
+Grazing
+Impacting
+x0
+
+Non-impacting
+Π
+P
+
+1.4
+
+Literature survey
+
+1.4.1
+
+ZDM
+
+Consider the piecewise smooth flows defined by (1.12).Suppose there exists a
+grazing orbit in the region H ( x ) > 0 that grazes the switching manifold at
+the point x = 0. We impose the following restrictions on the system and the
+grazing orbit:
+1. H (0) = 0 (A necessary condition for x = 0 to be a grazing point).
+2.
+
+dH
+dx
+
+3.
+
+d
+dt
+
+= 0 (Ensuring H varies smoothly with x, a property to be used later).
+
+H ( ϕi (0, t))|t=0 = 0 (Assuming both the vector fields are tangential to
+the switching manifold).1
+2
+
+∗ : = d H ( ϕ (0, t ))|
+4. ai
+i
+t=0 > 0 (Ensuring that H ( x ) attains a minimum
+dt2
+value for any orbits close to 0, another property to be used later.)
+
+Consider an orbit starting from a point xi which is close to a grazing orbit
+(See Fig 1.9). Suppose the orbit spends time δ0 to hit the switching manifold at
+the point x1 , then it evolves according to the second vector field F2 . After time
+δ, it reaches the point with minimum H, an occurrence guaranteed by property
+4. After time δ , it hits the switching manifold again at point x2
+The ZDM is defined as a map which maps xi to a point x3 in zero time such
+the time taken to go from xi to x2 equals the time it would have taken to go from
+1 ϕ
+˙ i ( x, t)|t=0 = Fi ( x ). ϕi ( x, t) denotes an orbit satisfying the corresponding ODE starting from
+the initial co-ordinate x at t = 0.
+
+CHAPTER 1. INTRODUCTION
+
+14
+
+Figure 1.9: ZDM
+
+x1
+
+x2
+
+0
+x5
+δ
+
+δ0
+
+δ
+
++δ
+
+δ0
+
+ZDM : xi → x3
+
++δ
+
+xi
+
+x3 to x2 , if the motion were governed by the vector field F1 . ZDM is a special
+case of a more genaral class of maps called discontinuity mappings [14, 22–24].
+From Fig 1.9, it is evident that
+ZDM ( xi ) = ϕ1 (−δ0 − δ − δ , x2 )
+The advantage of the ZDM formalism is that any orbit starting from the
+point xi at time 0 and ending at a point x f at time t, both in the region H ( x ) > 0
+and involving a single foray into the ‘other’ side side of the flow can be written
+as:
+x f = ϕ1 ( ZDM( xi ), t)
+(1.24)
+without worrying about Flow 2. Of course, the information regarding the
+time spent by the system according to Flow 2 is still there: it is hidden in the
+ZDM. As we will see in the next subsection, provided the orbit is close to grazing, ZDM can be derived analytically.
+In particular, ZDM approach enables one to calculate the stroboscopic Poincaré
+maps for orbits shown in Fig 1.8:
+Π( xi ) = ϕ1 (( ZDM ( ϕ1 ( xi , τ0 )), T − τ0 )
+
+(1.25)
+
+after which stability analysis becomes possible using the usual method of
+calculating the eigenvalues of the Jacobian of Π at the fixed point.
+
+1.4.2
+
+Vanishing chaos
+
+Impact oscillators as described in (1.7) and (1.10) have been studied extensively
+since the 1970’s when Feigin [1] described their bifurcation structure. We now
+know that they can exhibit extremely rich dynamical behaviour. Using the
+ZDM approach, Banerjee et al. investigated the grazing bifurcations in such
+systems [21, 25–28] . They found that the Jacobian suffers a discontinuity at
+grazing (which, as we showed in Claim 1.3.1, is a necessary condition for period doubling bifurcation at grazing) unless the damped natural frequency of
+the system is an integral multiple of half the frequency of the external driving
+
+CHAPTER 1. INTRODUCTION
+
+15
+
+force:
+n=
+
+2ω g
+ω f orcing
+
+∈N
+
+(1.26)
+
+This implies that chaos initiated by a period doubling cascade cannot take
+place at those specific n-values. Now we will describe their method.
+ZDM for soft impacting oscillator
+Figure 1.10: Oscillator with soft impact
+d
+
+k1
+m
+
+G (t)
+
+k2
+
+γ
+
+The system is depicted in Fig 1.10. It consists of a mass m attached to a
+spring with spring constant k1 and a damper with damping coefficient γ. The
+mass being externally driven by a force G (t) = F cos ωt. There is a massless
+strip of wood attached to a spring of spring constant k2 at a distance σ from
+the equilibrium position of the first spring. The second spring is pre-stressed
+so that it is already compressed by an amount d. The equations of motion are:
+
+
+˙ − k1 x + G (t)
+for x < σ
+−γ x
+¨=
+(1.27)
+mx
+
+
+˙ − k1 x − k2 ( x − σ + d) + G (t) for x ≥ σ
+−γ x
+Since this is a non-autonomous2 system defined by a second order ODE, we
+can write in in an autonomous first order form by defining the state variable as
+a 3-dimensional vector:
+ 
+x
+x = v
+(1.28)
+t
+2 i.e.
+
+explicitly depending on time
+
+CHAPTER 1. INTRODUCTION
+
+16
+
+as the equations of motion then become:
+
+
+
+v
+
+
+
+
+ F (x) = 
+(−γv − k1 x + G (t))/m
+ 1
+  
+
+
+˙
+x
+
+1
+
+
+˙ =
+˙ = v
+x
+
+v
+
+˙
+t
+
+
+
+
+
+
+F2 (x) = (−γv − k1 x − k2 ( x − σ + d) + G (t))/m
+
+
+
+1
+
+for x < σ
+
+for x ≥ σ
+
+(1.29)
+At suitable parameter values, there will be grazing and impacting orbits as
+depicted in Fig 1.8. In that case, we can analyze the system dynamics in terms
+of a Poincaré map taking the form:
+Π = N2 ◦ ZDM ◦ N1
+
+(1.30)
+
+Where N1 is a state transition matrix that takes a point xi on the Poincaré
+plane to the switching manifold and N2 is the state transition matrix that takes
+the result of applying the ZDM back to the Poincaré plane.
+N1 and N2 can be obtained from the solution of the driven SHO, which can
+be analytically solved. So ZDM is the only tricky part.
+Figure 1.11: Calculating the ZDM
+
+ZDM : x1 → x3
+
+x1
+
+x2
+
+0
+
+δ
+
+δ+
+
+δ
+
+δ
+
+x5
+
+x3
+As we can see from Fig 1.11, the calculation 3 involves deriving expressions
+for δ and δ as a function of x1 first.
+3 Notice that since we are calculating the ZDM of a point on the switching manifold, calculations
+are simpler than the general case depicted in Fig 1.9
+
+CHAPTER 1. INTRODUCTION
+
+17
+
+Calculate δ:
+x1 = ϕ ( x5 , − δ )
+H ( x1 ) = H ( ϕ( x5 , −δ))
+∂
+H ( ϕ2 (t, x5 )) |t=0 (−δ)
+∂t
+δ2
+∂2
++ 2 H ( ϕ2 (t, x5 )) |t≈0
+2
+∂t
+∂2
+δ2
+≈ H ( x5 ) + 0 + 2 H ( ϕ2 (t, 0)) |t≈0
+2
+∂t
+2
+δ
+∗
+≈ H ( x5 ) + a2
+2
+
+≈ H ( ϕ2 ( x5 , 0)) +
+
+Let H ( x5 ) = Hmin ( xi ) = −y2 :
+δ=y
+
+Calculate ZDM:
+
+2
+∗
+a2
+
+(1.31)
+
+Using identical arguments, δ = y
+
+2
+∗
+a2
+
+Let δ + δ = δ1
+Then:
+2
+δ3
+δ1
+¨1 ( x2 ) 1
+−F
+2
+6
+3
+2
+δ1
+δ1
+˙2 ( x2 ) − F
+¨2 ( x2 )
+x1 ≈ x2 − F2 ( x2 )δ1 + F
+2
+6
+
+˙1 ( x2 )
+x3 ≈ x2 − F1 ( x2 )δ1 + F
+
+˙1 − F
+˙2 )( x2 )
+x3 = x1 − ( F1 − F2 )( x2 )δ1 + ( F
+
+≈ x1 − ( F1 − F2 )( x ∗ )δ1 + H.O.T.
+
+2
+δ3
+δ1
+¨1 − F
+¨2 )( x2 ) 1
+− (F
+2
+6
+
+(1.32)
+(1.33)
+
+(1.34)
+(1.35)
+
+Now we go back to the definitions of Fi for the impact oscillator (1.29) and
+notice:
+
+ 
+
+v
+v
+F2 ( x ) − F1 ( x ) = (−γv − k1 x − k2 ( x − σ + d) + G (t))/m − (−γv − k1 x + G (t))/m
+1
+1
+(1.36)
+
+
+0
+= k2 (− x + σ − d)/m
+(1.37)
+0
+ 
+0
+Here x ∗ = σ. Therefore F2 ( x ∗ ) − F1 ( x ∗ ) = Q 1, where Q = −k2 d/m.
+0
+
+CHAPTER 1. INTRODUCTION
+
+18
+
+Thus we have from (1.34):
+ZDM (x) = x − ( F1 − F2 )( x ∗ )δ1
+
+= x + 2Q
+
+(1.38)
+
+ 
+0
+−2Hmin ( x )  
+1
+∗
+a2
+0
+
+(1.39)
+
+Calculating the Jacobian of the Poincaré map For orbits close to grazing, the
+total Poincaré map would be given by (1.30). Therefore the Jacobian J of the
+map would be:
+J = JN2 · JZDM · JN1
+
+(1.40)
+
+From (1.38), we get:
+
+
+JZDM
+
+1
+= α
+0
+
+
+0 0
+1 0
+0 1
+
+(1.41)
+
+a∗
+H (x)
+−2Hmin ( x ) min
+
+Where α = − Q
+
+Here it should be noted that at grazing Hmin = σ − σ = 0. Therefore we see
+that the Jacobian of the ZDM will have a singularity at grazing. This singularity
+will be seen to be the root of the discontinuity in the Jacobian, which in turn,
+will cause the period doubling cascade.
+Jacobian of Ni
+By definition,
+
+
+
+
+
+0
+1
+0
+N1 (x) = e Aτ x Where A = −k1 /m −γ/m 0
+0
+0
+1
+
+γ
+ω cos ω g t + 2 sin ω g t
+sin ω g t
+e−γt/2  g
+−k sin ω g t
+ω g cos ω g t − γ
+=
+2 sin ω g t
+ωg
+0
+0
+
+√
+Where ω g =
+Similarly,
+
+(1.42)
+
+0
+0 x
+1
+(1.43)
+
+4k −γ2
+2
+
+N2 (x) = e A(T −τ ) x
+Therefore
+
+
+JN1 = e Aτ
+
+n11
+:= e−γτ/2 n13
+0
+
+n12
+n14
+0
+
+
+0
+0
+1
+
+(1.44)
+
+CHAPTER 1. INTRODUCTION
+
+19
+
+and
+
+
+JN2 = e A(T −τ )
+
+n21
+:= e−γ(T −τ )/2 n23
+0
+
+n22
+n24
+0
+
+
+0
+0
+1
+
+(1.45)
+
+Now we are in a position to investigate the discontinuity of the Jacobian.
+We first note that the Jacobian of all three parts of the map, although 3 × 3 in
+dimension, behaves like identity on the third co-ordinate, the time. Hence it is
+essentially a 2 × 2 determinant. And it has been shown by Banerjee and Grebogi that any 2−D map can, by means of a suitable co-ordinate transformation,
+be written in the form:
+M=
+
+a
+c
+
+b
+d
+
+=
+
+Tr ( M)
+1
+−det( M) 0
+
+From (1.44) and (1.45) it can be easily shown that
+det( JN1 ) = e−γτ , det( JN2 ) = e−γ(T −τ )
+Also, from (1.38),
+det( JZDM ) = 1
+Therefore it is evident the determinant of the Poincaré map does not suffer
+any discontinuity.
+Now we will look at the trace.
+Using (1.40):
+
+
+
+
+n21 n22 0
+1 0 0
+n11 n12 0
+J = e−γT/2 n23 n24 0 α 1 0 n13 n14 0
+(1.46)
+0
+0 1
+0 0 1
+0
+0 1
+
+
+
+n21 n22 0
+n11
+n12
+)
+−γT/2 
+n23 n24 0 αn11 + n13 αn12 + n14 0
+(1.47)
+=e
+0
+0 1
+0
+0
+1
+Therefore
+Tr ( J ) = e−γT/2 (n11 n21 + n13 n22 + α(n11 n22 + n12 n24 ) + n12 n23 + n14 n24 + 1)
+(1.48)
+Obviously, α is the only term that contains the singularity term in the form
+−1/2
+of Hmin
+. We take a closer look at the coefficient of α.
+From (1.44) and (1.45):
+γ
+sin ω g τ /ω g
+2
+= sin ω g ( T − τ ) /ω g
+
+n11 = ω g cos ω g τ +
+
+(1.49)
+
+n22
+
+(1.50)
+
+n12 = sin ω g τ /ω g
+n24
+
+γ
+= ω g cos ω g ( T − τ ) − sin ω g ( T − τ ) /ω g
+2
+
+(1.51)
+(1.52)
+
+CHAPTER 1. INTRODUCTION
+
+20
+
+Figure 1.12: Oscillator with hard impacts
+
+k1
+G (t)
+
+m
+γ
+
+Therefore the term with possible discontinuity is
+α
+
+sin ω g T
+ωg
+
+sin 2π
+=α
+ωg
+
+(1.53)
+
+ωg
+ω
+
+(1.54)
+
+This equation has a serious ramification: the discontinuity vanishes if
+2ω g
+∈ N.
+ω
+
+(1.55)
+
+According to our Claim 1.3.1, when the two frequencies are at these exact
+ratio, there won’t be any period doubling cascade on grazing.
+
+1.4.3
+
+Impact map
+
+Consider the impact oscillator system described by (1.10)
+¨ = −γ x
+˙ − k1 x + G (t)
+mx
+
+( x, v) → ( x, −rv)
+
+for x < σ
+
+(1.56)
+
+for x = σ
+
+(1.57)
+
+Where r is the coefficient of restitution.
+In such a system, quite often periodic orbits are observed which involve
+one or more impacts at the hard wall at x = σ. For simplicity, let’s consider
+orbits with only one collision. Clearly, one necessary condition for such orbits
+to exist is:
+(σ, v) nT
+→ ( σ, − v/r )
+Where nT is the time period of the orbit. This map is known as the impact map. For a stable orbit, apart from this equation, the Jacobian should
+have eigenvalues with absolute values < 1. This approach was used in [3,
+Ch. 2; p. 20], where they obtained the necessary conditions for saddle-node
+and period-doubling grazing bifurcations to occur in impact oscillators without damping.
+
+CHAPTER 1. INTRODUCTION
+
+21
+
+Figure 1.13: A P1C1 orbit
+15
+
+"./bounce1.dat" u 2:3
+
+10
+
+y
+
+5
+
+0
+
+-5
+
+-10
+
+-15
+-8
+
+-6
+
+-4
+
+-2
+
+0
+x
+
+2
+
+4
+
+6
+
+8
+
+Impact map formalism was also used in past to study chattering [29], intermittency close to resonance [30], stability and bifurcation of single collision
+orbits [31–33] and multiple collision orbits [34, 35]. However, it has not yet
+been used to study the vanishing of chaos near n ∈ N for impact oscillators
+with damping.
+
+1.4.4
+
+Numerical computation of fixed points
+
+The method of impact map works very well to solve for periodic orbits involving only one collision per cycle (termed PnC1 orbits)4 with the hard wall. But
+this method does not work well for parameters values for which stable orbits
+collide multiple times in a single cycle. Ma et al. devised a way to numerically
+compute [36, 37] any stable or unstable PnCm orbit. We explain the method
+below.
+For simplicity, we supposing the orbit crosses the border only once, although the strength of this approach is in finding more complicated orbits.
+Such an orbit is depicted in Fig 1.13. Then finding out the orbit boils down to
+finding out the solution to this set of equations:
+x1 = ϕ1 ( x0 , 0, τ0 )
+H ( x1 ) = 0
+
+(1.58)
+(1.59)
+
+x2 = ϕ2 ( x1 , τ0 , τ1 )
+H ( x2 ) = 0
+
+(1.60)
+(1.61)
+
+x0 = ϕ1 ( x2 , τ1 , T − τ0 − τ1 )
+
+(1.62)
+
+This is a set of 3n + 2 equations in 3n + 2 unknowns, so this can be tackled
+with standard Newton’s method [38, 39] of root finding:
+y n +1 =
+4 In
+
+G (yn )
+¯n )
+J (y
+
+general, PmCn orbit means period-m orbits with n collisions per cycle
+
+CHAPTER 1. INTRODUCTION
+
+22
+
+Here y := { x0 , x1 , x2 , τ0 , τ1 } is a 3n + 2 dimensional vector.
+Thus we can use the standard methods of stability analysis by evaluating
+the eigenvalues of the Jacobian at the fixed points.
+
+1.4.5
+
+Lifetime of transients
+
+The problem of long lived transients plagues many nonlinear systems. Despite the existence of a stable fixed point, trajectories starting from many initial
+conditions are found to take a lot of time to reach the fixed point. In case of
+discrete time systems involving grazing, Grebogi et al. [40, 41] predicted that in
+a system where grazing occurs at parameter value ρ = ρc , average transient
+lifetimes vary as
+τ ∝ | ρ − ρc |−γ
+
+(1.63)
+
+Where the value γ is called the critical transient of the system. They derived
+an analytical expression for γ in terms of the eigenvalues of the Jacobian at the
+fixed points of the system. Experimental verification of their prediction was
+carried out by [42, 43].
+
+1.5
+
+Scope of present work
+
+As we described in Subsection 1.4.2, Banerjee et al. predicted by calculating
+the ZDM that chaos through on border collision route should not happen in
+soft impacting oscillators if 2ω g /ω ∈ N. The same analysis was found out to
+hold for hard impacting oscillators in [25], Experimental results were found to
+match this prediction very well. However, chaos was seen to vanish not only
+when n were exactly integers, but in a small neighbourhood of each of them.
+So far, no explanation for this has been published. In the next chapter, we will
+take up this problem.
+During our simulations on hard impacting oscillators, we observed transients orders of magnitude longer than what should take place in a corresponding system without the nonlinearity imposed by the impacts. No study on
+transient lifetimes in impacting systems had been published so far. It needs
+to be checked if the results of Grebogi et al. [40], derived for maps, holds true
+for continuous time impacting systems or not and if it does, whether a way to
+compute the critical exponent could be devised.
+
+Chapter 2
+
+Our system
+As promised in the last chapter, we will now investigate two problems: the
+vanishing of chaos in hard impacting oscillator and the problem of long transients in the same system.
+
+2.1
+
+Description
+
+We briefly describe our system again.
+Figure 2.1: Hard impacting oscillator
+
+k1
+m
+
+G (t)
+
+γ
+
+It consists of a driven simple harmonic oscillator with a hard wall at a distance σ from its equilibrium position. The equation of motion is:
+¨ = −γ x
+˙ − k1 x + F cos ωt
+mx
+
+for x < σ
+
+(2.1)
+
+for x = σ
+
+( x, v) → ( x, −rv)
+
+(2.2)
+
+Where r is the coefficient of restitution, which is 1 for perfectly elastic collisions.
+In the rest of the thesis, we will assume all the collisions to be perfectly elastic
+unless explicitly stated otherwise.
+
+23
+
+CHAPTER 2. OUR SYSTEM
+
+2.1.1
+
+24
+
+Solution disregarding the boundary
+
+If we forget the boundary for a moment, the equation of motion is a nonhomogeneous ODE. As usual, its solution is a sum total of a homogeneous solution and a particular solution [44, p. 23-3]:
+x (t) = x p (t) + xh (t)
+F/m
+ωγ
+x p (t) =
+)
+cos(ωt + tan−1 2
+2
+ω
+− ω0
+2 − ω 2 )2 + ω 2 γ2
+( ω0
+xh (t) =
+ωg =
+
+e−γt/2
+ωg
+2−
+ω0
+
+(ω g cos ω g t +
+
+γ
+sin ω g t) x (0) + (sin ω g t)v(0)
+2
+
+γ2
+4
+
+(2.3)
+(2.4)
+
+(2.5)
+(2.6)
+
+Here it should be noted that only the homogeneous solution contains the
+dependence on the initial conditions.
+
+2.2
+
+Approximate Poincaré map
+
+In this section we will make an attempt to derive an expression for a Poincaré
+map for our system assuming PnC1 orbits. Suppose the parameters of the system are set such that √ 2 F/m
+= σ . This constitutes a steady state
+2 2
+2 2
+( ω0 − ω ) + ω γ
+
+grazing orbit. Suppose we look at stroboscopic time slices such that the grazing orbit grazes the boundary at t = τ. Now we perturb the system slightly so
+that the system hits the boundary with some non zero velocity at t = τ + δt
+Therefore we have:
+x (0)
+v (0)
+
+=
+
+x p (0)
+x (0)
++ h
+v p (0)
+v h (0)
+
+x (τ + δt)
+v(τ + δt)
+
+=
+
+x p (τ + δt)
+x (τ + δt)
++ h
+v p (τ + δt)
+vh (τ + δt)
+
+The instant after collision:
+
+CHAPTER 2. OUR SYSTEM
+
+25
+
+=
+
+x p (τ + δt)
+xh (τ + δt)
++
+−v p (τ + δt)
+−vh (τ + δt)
+
+=
+
+x
+v
+
+x p (τ + δt)
+x (τ + δt)
++ h
+v p (τ + δt)
+vh (τ + δt)
+
++
+
+0
+−2vh (τ + δt) − 2v p (τ + δt)
+
+After a full time period T:
+x(T )
+v( T )
+
+= x p ( T ) + M( T − τ − δt)
+
+xh (τ + δt)
+vh (τ + δt)
+
+0
+−2vh (τ + δt) − 2v p (τ + δt)
+= x p ( T ) + M ( T ) x h (0)
+
++
+
++ M( T − τ − δt)
+
+0
+−2v p (τ + δt) − 2vh (τ + δt)
+
+Where
+e−γt/2 ω g cos ω g t + γ
+2 sin ω g t
+−k sin ω g t
+ωg
+√
+4k−γ2
+and ω g =
+2
+Therefore we have our Poincaré map:
+M(t) =
+
+x ( T ) = M ( T ) x (0) + M( T − τ − δt)
+
+sin ω g t
+ω g cos ω g t − γ
+2 sin ω g t
+
+0
+−2v p (τ + δt) − 2vh (τ + δt)
+
+(2.7)
+
+(2.8)
+
+With the definition
+x (t) = x (t) − x p (t)
+Now we draw attention to the fact that in the Poincaré map (2.8) , the second term is the actual nonlinear term.
+If we can find expressions for δt, v p , vh in terms of x (0), v(0), the job will
+be done. This can easily be done provided that the trajectory collides with the
+wall at very low velocity. We provide the calculations in Appendix A.
+Using this Poincaré map, we plotted the bifurcation diagrams Fig 2.2 and
+2ω
+Fig 2.3. They clearly demonstrates the curious effect of making n = ω g an
+integer on grazing bifurcations. In the non-integral case, as [21, 25] predicts,
+there is a chaotic region. But for n = 2, no such thing happens. Instead we see
+two fixed points immediately gaining stability.
+
+2.3
+
+Numerical computation of the fixed points
+
+We see that in case of both integral n and non-integral n, periodic orbits became
+stable a little bit after grazing. We decided to take a look at the phase space
+
+CHAPTER 2. OUR SYSTEM
+
+26
+
+Figure 2.2: Bifurcation digram for n = 2.235, notice the brief region of chaos
+after grazing
+10
+
+"./poinc-ni.dat" u 1:2
+
+5
+
+0
+
+-5
+
+-10
+0
+
+0.1
+
+0.2
+
+0.3
+
+0.4
+
+0.5
+
+0.6
+
+0.7
+
+0.8
+
+0.9
+
+Figure 2.3: Bifurcation diagram for n = 2, notice the absence of chaos on grazing
+0.5
+
+"./poinc.dat" u 1:2
+
+0
+
+-0.5
+
+-1
+
+-1.5
+
+-2
+0
+
+0.1
+
+0.2
+
+0.3
+
+0.4
+
+0.5
+
+0.6
+
+trajectories. One such trajectory in case of n = 2 is plotted in Fig 2.4
+As we can clearly see, this is a closed orbit involving a single collision. The
+time period is 2T = 2 2π
+ω . Therefore the Newton-Raphson method described in
+Subsection 1.4.4 would work fine for stability analysis of such orbits.
+
+2.3.1
+
+The procedure
+
+We start by defining a 5-dim vector y = ( x0 , v0 , xc , vc , τ ), where τ is the time
+when a trajectory starting from ( x, v) = ( x0 , v0 ) collide with the hard wall and
+( x, v) = ( xc , vc ) at that time.
+
+CHAPTER 2. OUR SYSTEM
+
+27
+
+Figure 2.4: P2C1 orbit after grazing
+
+1.5
+
+"./traj_1.dat" every ::0::4*pi*1000 u 2:3
+
+1
+
+0.5
+
+0
+
+-0.5
+
+-1
+
+-1.5
+-1.5
+
+-1
+
+-0.5
+
+0
+
+0.5
+
+1
+
+Then we get a system of equations G(y) = 0 where:
+G1,2 (y) = x1 − ϕ(τ, 0, x0 ) = 0
+G3,4 (y) = x0 − ϕ(2T, τ, x1 ) = 0
+G5 (y) = x1 − σ = 0
+Since this is a set of 5 equations in 5 unknowns, we can solve the equation
+G (y) = 0 using Newton-Raphson method:
+y n +1 = y n + J ( y ) −1 G ( y )
+The solution will provide us with a P2C1 orbit. It should be noted that this
+method will give stable and unstable orbits, unlike normal simulations which
+will never give us unstable orbits. However, in order to get all existing orbits, one must run the program with many initial conditions to ensure that the
+Newton-Raphson iteration scheme ‘finds’ all the solutions.
+In Fig 2.5 , we plot the results of such numerical calculation in the case of
+n = 2.235 and n = 2. We can easily see that in the first case (n ∈
+/ N), when F
+is quite larger than the grazing condition (Which is F = 0.3903, to be exact), all
+the eigenvalues are < 1 in magnitude. But as the F value approaches grazing ,
+the absolute value of one or more eigenvalues of the fixed point exceeds 1. We
+know from basic dynamical systems theory that this signifies the transition of
+the fixed point from attractor to repeller (if the magnitudes of both eigenvalues
+turn > 1) or saddle (if the magnitude of only one eigenvalue turn > 1).
+
+CHAPTER 2. OUR SYSTEM
+
+28
+
+Figure 2.5: Stability of P1C1 orbits near grazing
+
+1.2
+1
+0.8
+0.6
+0.4
+0.2
+0
+0.07
+
+eig1
+eig2
+1
+
+Grazing
+
+Eigenvalues
+
+Modulus of eigenvalues of the Jacobian at fixed points vs. F at n=2
+
+0.08
+
+0.09
+
+0.1
+
+0.11
+
+0.12
+
+0.13
+
+0.14
+
+0.15
+
+0.16
+
+F
+
+14
+12
+10
+8
+6
+4
+2
+0
+0.38
+
+eig1
+eig2
+1
+
+Grazing
+
+Eigenvalues
+
+Modulus of eigenvalues of the Jacobian at fixed points vs. F at n=2.235
+
+0.4
+
+0.42
+
+0.44
+
+0.46
+F
+
+0.48
+
+0.5
+
+0.52
+
+0.54
+
+CHAPTER 2. OUR SYSTEM
+
+29
+
+However, in the case of n = 2, as opposed to the previous case, no transition
+of the fixed point from an attractor to saddle/repeller takes place here: the
+eigenvalue stays put < 1 throughout the range of parameter values. This again,
+provides a justification for the vanishing of chaos as predicted in [21] .
+However, there are a few problems in the Newton-Raphson approach of
+stability analysis. First of all, the numerically computed eigenvalues fluctuate
+a lot near grazing, possibly due to numerical errors in the Newton-Raphson iteration scheme. Secondly, it does not provide us with analytical expressions for
+either the fixed points or the eigenvalues, making the task of gaining physical
+insights into the problem much more difficult.
+Therefore we decide to explore another approach for studying the same
+phenomena.
+
+2.4
+
+Impact map and its Jacobian
+
+We had described the concept of impact maps in subsection 1.4.3. Now we will
+apply it in order to tackle the problem of stability analysis of single collision
+orbits in hard impacting oscillators.
+Figure 2.6: Impact map in case of PnC1 orbit
+
+2.4.1
+
+Derivation of the map
+
+Suppose the oscillator collides against the hard wall at time τ and the state
+x − (τ )
+vector immediately before collision be
+. Just after the collision, the
+v− (τ )
+state vector becomes
+x + (τ )
+x + (τ )
+=
++
+−v+ (τ )
+v (τ )
+By construction, x − (τ ) = x + (τ ) = σ. Then we have:
+
+CHAPTER 2. OUR SYSTEM
+
+30
+
+x − (τ )
+v− (τ )
+
+=
+
+x p (τ )
+x (τ )
++ h
+v p (τ )
+vh (τ )
+
+x + (τ )
+v+ (τ )
+
+=
+
+x p (τ )
+xh (τ )
++
+−vh (τ ) − 2v p (τ )
+v p (τ )
+
+(2.10)
+
+x − (τ + nT )
+v− (τ + nT )
+
+=
+
+x p (τ + nT )
+xh (τ )
++ M(nT )
+−vh (τ ) − 2v p (τ )
+v p (τ + nT )
+
+(2.11)
+
+=
+
+x p (τ )
+xh (τ )
++ M(nT )
+−vh (τ ) − 2v p (τ )
+v p (τ )
+
+(2.12)
+
+(2.9)
+
+Where M (t) is given by (2.7).
+Provided a PmC1 orbit exists (stable or unstable),
+M (mT )
+
+xh (τ )
+−vh (τ ) − 2v p (τ )
+
+xh (τ )
+vh (τ )
+
+=
+
+and
+x p (τ ) + xh (τ ) = σ
+This requirement is schematically depicted in Fig 2.6. We recall:
+x p (t) = A1 cos(ωt + tan−1
+
+ωγ
+)
+2
+ω 2 − ω0
+
+v p (t) = − Aωsin(ωt + tan−1
+
+ωγ
+)
+2
+ω 2 − ω0
+
+2
+
+= ∓ Aω
+
+1−
+
+xp
+A
+
+= ∓ Aω
+
+1−
+
+σ − xh
+A
+
+2
+
+The condition for existence of a PnC1 orbit:
+M(mT )
+
+−v ± 2ω
+
+x
+A2 − ( σ − x )2
+
+=
+
+x
+v
+
+(2.13)
+
+The uncertainty about the ± sign is a direct consequence of the fact that for
+the same position, the velocity of the oscillator can have two values equal in
+magnitude but with opposite signs.
+Therefore now we have an expression of the impact map M I as depicted in
+Fig 2.6
+
+MI :
+1A
+
+=
+
+F/m
+2 − ω 2 )2 + ω 2 γ2
+( ω0
+
+x
+v
+
+→ M(mT )
+
+−v ± 2ω
+
+x
+A2 − ( σ − x )2
+
+(2.14)
+
+CHAPTER 2. OUR SYSTEM
+
+2.4.2
+
+31
+
+Fixed points of the map
+
+Therefore the fixed points of M I and the eigenvalues of the Jacobian of M I at
+those fixed points will determine whether a PmC1 orbit will be stable or not.
+Suppose
+a b
+M(mT ) =
+c d
+
+x = ax − bv ± 2bω
+
+A2 − ( σ − x )2
+
+(2.15)
+
+v = cx − dv ± 2dω
+
+A2 − ( σ − x )2
+
+(2.16)
+
+v can be easily eliminated:
+v(1 + d) − cx
+x (1 − a) + bv
+=
+b
+d
+bv = x (d − ad + bc)
+Substituting in (2.15):
+x ( a − d + ad − bc − 1) ± 2bω
+A2 − ( σ − x )2 −
+Let
+α=
+
+A2 − ( σ − x )2 = x
+
+( a − d + ad − bc − 1)
+2bω
+
+2
+
+x2 = 0
+
+( a − d + ad − bc − 1)
+2bω
+
+Then:
+A2 − ( σ − x )2 = α2 x 2
+x2 (α2 + 1) − 2σx + (σ2 − A2 ) = 0
+Therefore we have the solution:
+σ2 − (α2 + 1)(σ2 − A2 )
+α2 + 1
+(d − ad + bc) x ∗
+v∗ =
+b
+
+x∗ =
+
+σ±
+
+(2.17)
+(2.18)
+
+One important property of (2.17) is very evident: At grazing, A = σ. Therefore there exists a trivial solution: ( x ∗ , v∗ ) = (0, 0). This, of course, corresponds
+to a non-colliding orbit. Now, after grazing, two solutions exist simultaneously.
+The question is, are they attractors, repellers or saddles? This is the question
+we will tackle next.
+
+CHAPTER 2. OUR SYSTEM
+
+32
+
+Jacobian of the map
+From (2.14), the Jacobian of M I can be easily calculated:
+J ( x, v) = M (mT )
+
+1
+−v ± 2ω √
+
+σ− x
+A2 −(σ − x )2
+
+0
+−1
+
+(2.19)
+
+Figure 2.7: Eigenvalues of fixed points Vs. F for n = 2.01, 2.1, 2.2
+
+Eigenvalues of Jacobian
+
+3
+
+2
+
+n=2.0
+n=2.0
+n=2.01
+n=2.01
+n=2.1
+n=2.1
+
+1
+
+0
+
+-1
+0.08
+
+0.09
+
+0.1
+
+0.11
+
+0.12
+
+0.13
+
+0.14
+
+0.15
+
+0.16
+
+0.17
+
+0.18
+
+F
+
+In Fig 2.7, we plot the eigenvalues of the Jacobian at the fixed points obtained via Formula (2.17) against the driving force amplitude for various n values. We observe that for n = 2.01, all the eigenvalues at both the fixed points
+remain always < 1 in magnitude, even right after grazing. This means that
+both the fixed points are attractors.
+However, for n = 2.1, one fixed point is an attractors throughout the whole
+range of parameter values. However, another one is a saddle and one of its
+eigenvalues shoots up as the system approaches grazing, signifying high stretching of the phase space.
+In case of n = 2.2, both of them are repellers. Only near grazing, one of
+them become a saddle.
+
+CHAPTER 2. OUR SYSTEM
+
+2.4.3
+
+33
+
+Stability analysis at grazing
+
+Now we are very close to determining the narrow window of disappearing
+chaos as predicted in [21]. As we have seen in Fig 2.3, when the value of n is
+close to a positive integer, a stable orbit emerges right after grazing. Looking
+at the trajectories, we have seen that it is indeed a P1C1 orbit. Therefore the
+window of vanishing chaos will be equal to the range of n values where there
+exists an attracting fixed point of the impact map M I right after grazing.
+Figure 2.8: Eigenvalues of fixed points at grazing Vs. n
+8
+1st eigenvalue
+2nd eigenvalue
+1
+-1
+Region where FP is attractor
+
+6
+
+Eigenvalues
+
+4
+2
+0
+-2
+-4
+-6
+-8
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+n
+
+From (2.17), we can easily get the fixed points for any parameter values .
+At grazing, the expressions simplify a lot because A = σ. Therefore the fixed
+points are:
+∗
+x1
+∗
+v1
+
+=0
+=0
+
+∗
+x2
+
+=
+
+∗
+v2
+
+=
+
+2σ
+α2 +1
+∗
+(d− ad+bc) x2
+b
+
+(2.20)
+(2.21)
+
+CHAPTER 2. OUR SYSTEM
+
+34
+
+A glance at (2.19) tells us that the Jacobian has a singular term at the fixed
+∗ , v∗ ). This signifies infinite stretching of the phase space in at
+point p1 := ( x1
+1
+least one direction at that fixed point and therefore it cannot be an attractor.
+∗ , v∗ ), is therefore the one determining whether a P1C1
+The other one, p2 := ( x2
+2
+orbit will be stable for a certain set of parameter values or not.
+In Fig. 2.8 we look at the nature of the fixed point p2 of impact map for
+various n values. We clearly see that around each n ∈ N, ∃ a neighbourhood
+(shaded in dark green in the figure), where both the eigenvalues of the Jacobian
+are < 1 in magnitude. The neighbourhoods are much narrower about odd n
+values than they are about even n values. We also note that the neighbourhood
+expands in width as n increases.
+
+2.5
+
+Long transients
+
+It has previously been observed that in a system exhibiting grazing bifurcations, the time spent by it before settling down to its attractor follows a power
+law pattern, with a blow up at the parameter value for grazing. We have observed similar results in case of the system investigated in the last section, as
+depicted in Fig 2.9 and Fig 2.10.
+Figure 2.9: Average transient lifetime Vs. F in the hard impacting oscillator
+700
+
+"./avgtvsf.dat"
+
+650
+
+Average transient lifetime
+
+600
+
+550
+
+500
+
+450
+
+400
+
+350
+
+300
+
+250
+0.26
+
+0.28
+
+0.3
+
+0.32
+
+0.34
+
+0.36
+
+0.38
+
+0.4
+
+F
+
+We point out here that these extra long lived transients are totally artefacts
+of the nonlinearity imposed by the impacts. Because without the impacts, the
+transient solution (which we have been calling homogeneous solution so far),
+goes as
+xh (t) =
+
+e−γt/2
+ωg
+
+(ω g cos ω g t +
+
+γ
+sin ω g t) x0 + (sin ω g t)v0
+2
+
+(2.22)
+
+CHAPTER 2. OUR SYSTEM
+
+35
+
+Figure 2.10: Average transient lifetime Vs. γ in the hard impacting oscillator
+3000
+
+"./avgtvsg.dat"
+
+Average transient lifetime
+
+2500
+
+2000
+
+1500
+
+1000
+
+500
+
+0
+0.08
+
+0.09
+
+0.1
+
+0.11
+
+0.12
+
+0.13
+gamma
+
+0.14
+
+0.15
+
+0.16
+
+0.17
+
+0.18
+
+Therefore the transient lifetimes, if the effect of impacts is disregarded,
+should be inversely proportional to γ and should not depend on F at all. Therefore, in order to explain these long lived transients, we would need to concentrate on the impacts.
+
+2.5.1
+
+The no-collision area
+
+Consider an initial condition:
+x p (0) = (− A, 0)
+x h (0) = ( x0 , v0 )
+Where A = √
+
+F/m
+2 − ω 2 )2 + ω 2 γ2
+( ω0
+
+Starting from this point, the solution till the next collision is, as per (2.3):
+
+x (t) = − A cos ωt +
+
+e−γt/2
+ωg
+
+(ω g cos ω g t +
+
+= − A cos ωt + e−γt/2 B cos ω g t + C
+C = −tan−1
+B=
+
+2+
+x0
+
+γ
+2ω g x0
+
++
+
+v0
+ωg
+
+x0
+γ
+v0
+x0 +
+2ω g
+ωg
+
+2
+
+γ
+sin ω g t) x0 + (sin ω g t)v0
+2
+
+CHAPTER 2. OUR SYSTEM
+
+36
+
+Case I: ω ≈ ω g
+Figure 2.11: Plot of (2.3) for ω g ≈ ω
+2
+
+− cos ωx + re−γx/2 cos (mωx/2 + ϕ)
+
+1.5
+1
+0.5
+
+x
+
+0
+-0.5
+-1
+-1.5
+-2
+-2.5
+0
+
+10
+
+20
+
+30
+
+40
+
+50
+
+60
+
+70
+
+80
+
+90
+
+t
+
+In this limit, the plot of x vs. t looks almost like beats. It is not surprising
+since (2.3) is a superposition of two frequencies after all. But since the amplitude associated with the frequency is decaying exponentially with time, at
+t → ∞ limit it will reduce to − A cos ωt.
+In general, the sum of two different sine waves differing both in amplitude
+and frequency cannot be further simplified. However, an approximate envelope can be calculated.
+We demonstrate this in Fig 2.12.
+The trajectory:
+x (t) = − A cos ωt + e−γt/2 B cos ω g t + C
+
+(2.23)
+
+Will have an envelope:2
+E(t) =
+
+A + Be−γt/2 sin
+
+C + (ω g − ω )t
+2
+
+(2.24)
+
+The next peak of the envelope occurs at
+tc =
+
+π −C
+ω g −ω
+π +C
+ω −ω g
+
+if ω g > ω
+if ω g < ω
+
+(2.25)
+
+And has height:
+Em = A + Be−γtc /2
+2 There
+
+are some aberrations in the first bulge of the envelope
+
+(2.26)
+
+CHAPTER 2. OUR SYSTEM
+
+37
+
+Figure 2.12: An envelope of (2.3) for ω g ≈ ω
+2.5
+
+− cos ωx + re−γx/2 cos (mωx/2 + ϕ)
+envelope
+
+2
+1.5
+1
+0.5
+x
+
+0
+-0.5
+-1
+-1.5
+-2
+-2.5
+0
+
+10
+
+20
+
+30
+
+40
+
+50
+
+60
+
+70
+
+80
+
+90
+
+t
+
+Case II: ω
+
+ωg
+x (t)
+E(t)
+
+= − A cos ωt + e−γt/2 B cos ω g t + C
+=
+
+A+e
+
+−γt/2
+
+(2.27)
+
+B cos ω g t + C
+
+(2.28)
+
+E(t) being the upper envelope.
+Figure 2.13: An envelope of (2.3) for ω g
+3
+
+ω
+
+− cos ωx + re−γx/2 cos (mωx/2 + ϕ)
+envelope
+
+2
+1
+
+x
+
+0
+-1
+-2
+-3
+-4
+0
+
+10
+
+20
+
+30
+t
+
+40
+
+50
+
+CHAPTER 2. OUR SYSTEM
+
+38
+
+Therefore:
+tc =
+
+2π −C
+ωg
+−C
+ωg
+
+for C > 0
+
+(2.29)
+
+for C < 0
+
+Em = A + Be−γtc /2
+Case III: ω
+
+(2.30)
+
+ωg
+x (t)
+E(t)
+
+= − A cos ωt + e−γt/2 B cos ω g t + C
+= − A cos ωt + e
+
+−γt/2
+
+B
+
+(2.32)
+
+Figure 2.14: An envelope of (2.3) for ω g
+4
+
+(2.31)
+
+ω
+
+− cos ωx + re−γx/2 cos (mωx/2 + ϕ)
+envelope
+
+3
+2
+
+x
+
+1
+0
+-1
+-2
+-3
+-4
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+t
+
+Therefore:
+π
+ω
+Em = A + Be−γtc /2
+tc =
+
+(2.33)
+(2.34)
+
+Calculation of collision-free area
+Now we are in a position to make a quantitative measurement of how “collisionprone” the system is for a certain fixed parameter value. What we need to do
+is:
+1. Consider a large number of initial conditions ( x0 , v0 ) ∈ R2 .
+2. Using the envelope, predict if there will be any future collision or not if
+the system starts from that initial condition.
+
+CHAPTER 2. OUR SYSTEM
+
+39
+
+3. Points for which there is no further collision should form a closed area in
+the whole space.
+4. See how this area shrinks as we approach grazing.
+Now we will define a few quantities to be used heavily in future.
+Definition 2.5.1. Em = height of the next peak of the envelope.
+Definition 2.5.2. xm = height of the next peak of the trajectory 3
+Definition 2.5.3. µ xv = {( x, v) ∈ X × V : xm ( x, v) < σ }
+Directly from this definition, µ xv can be calculated by the Monte Carlo integration approach. In Fig 2.15 we show how µ xv varies with F and γ respectively.
+We see very clearly in Fig 2.15 that µ xv varies with both F and γ following
+power law patterns:
+µ xv ∝ | F − Fc |2
+µ xv ∝ |γ − γc |
+
+(2.35)
+
+6.15
+
+(2.36)
+
+So far, we have calculated µ xv by means of a Monte Carlo integration: we
+chose N initial points, evaluated the number n of them that does not lead to
+n
+to µ xv .
+collision and equated N
+Now we’ll try an analytical approach.
+µ xv =
+
+A+ B( x,v)e−γtc ( x,v)/2 <σ
+
+dxdv
+
+Now we recall (2.25)
+tc =
+
+−tan−1
+
+π −C
+ω g −ω
+π +C
+ω −ω g
+
+if ω g > ω
+
+(2.37)
+
+if ω g < ω
+
+v0
+γ
+2ω g x0 + ω g
+
+Where C =
+.
+x0
+Since C is a rapidly varying function of both x and v and has range {−π/2, π/2},
+we can replace C ≈ 0 without too much error.
+Therefore
+µ xv ∼
+
+=
+3 Except
+
+in some cases, xm = Em
+
+A+ B( x,v)e−γπ/(2|ω g −ω |) <σ
+B( x,v)<(σ − A)eγπ/(2|ω g −ω |)
+
+dxdv
+dxdv
+
+CHAPTER 2. OUR SYSTEM
+
+40
+
+Figure 2.15: Dependence of µ xv on system parameters
+(a) µ xv vs. F
+2
+mu vs. F
+a*(F-Fgraz)2
+1.8
+1.6
+1.4
+1.2
+1
+0.8
+0.6
+0.4
+0.2
+0
+0.24
+
+0.26
+
+0.28
+
+0.3
+
+0.32
+F
+
+0.34
+
+0.36
+
+0.38
+
+0.4
+
+(b) µ xv vs. γ
+mu vs. gamma
+a*(g-ggraz)**6.15
+
+2
+
+1.5
+
+1
+
+0.5
+
+0
+0.02
+
+0.04
+
+Now we recall that B =
+
+0.06
+
+0.08
+
+2+
+x0
+
+0.1
+gamma
+
+γ
+2ω g x0
+
+So our integral is now of the form:
+
+0.12
+
++
+
+v0
+ωg
+
+0.14
+
+2
+
+0.16
+
+.
+
+x2 +( ax +by)2 <χ2
+
+dxdv
+
+0.18
+
+CHAPTER 2. OUR SYSTEM
+
+41
+
+x2 +( ax +by)2 <χ2
+χ
+
+=
+
+−χ
+
+dx
+
+−χ
+
+1
+= 2
+b
+2
+=
+b
+
+x2 +( ax +by)2 <χ2
+
+dy
+
+(2abx )2 − 4b2 ( x2 (1 + a2 ) − χ2 )
+dx
+b2
+
+χ
+
+=
+
+dxdy
+
+χ
+
+−χ
+χ
+−χ
+
+2b
+
+χ2 − x2 dx
+
+χ2 − x2 dx
+
+However, we have disregarded one very important restriction: x < σ, due
+to the hard wall.
+So, actually:
+µ xv ≈ 2ω g
+
+max {χ,1}
+
+−χ
+
+χ2 − x2 dx
+
+(2.38)
+
+Figure 2.16: µvx vs. F: comparison between the result of Monte Carlo integration and the approximate value
+3
+Actual
+Approximate
+a*(F-Fg)**2
+2.5
+
+2
+
+1.5
+
+1
+
+0.5
+
+0
+0.18
+
+0.2
+
+0.22
+
+0.24
+
+0.26
+
+0.28
+
+0.3
+
+0.32
+
+0.34
+
+0.36
+
+0.38
+
+0.4
+
+Now it needs to be seen how good the approximations involved in deriving
+the analytical expression (2.38) were. In Fig 2.16, we plot values of µ xv using the
+analytical formula and the values obtained by Monte Carlo integration using
+100000 points against F. As we can see, the approximation overestimate µ xv
+only slightly.
+
+CHAPTER 2. OUR SYSTEM
+
+42
+
+Relationship between µ xv and transient lifetime
+We see from Fig 2.15 that µ xv varies with parameters F and γ following a power
+law pattern: far from grazing, the area is large; implying plenty of chance of the
+system to go to a stable non-grazing orbit. However, as the parameter is tuned
+towards grazing, this area sharply drops to zero; which results in frequent collisions with the boundary even though there exists a non-grazing stable orbit.
+So the system takes a long time to “find” that elusive stable orbit, resulting in
+long transient lifetimes.
+This immediately suggests that the transient lifetime τ may be related to
+µvx according to:
+τ∝
+
+1
++ τ0
+µ
+
+(2.39)
+
+This hypothesis is further strengthened by the fact that both µ xv and τ have
+been seen to follow power law pattern. We have already seen in Fig 2.15 that
+µ xv varies with F and γ following a power law pattern with exponents 2 and
+6.15 respectively. Now we will check if the exponents for τ turns out to be −1
+times the exponent for µvx or not.
+In Fig 2.17, we have fitted the function a| Fc − F |−2 + b to our τ vs. F data
+and observed quite good fit.
+However, the fit of the function a|γ − γc |−6.15 + b with our τ vs. γ data
+turned out to be not so good. There is a sharp decrease in τ near grazing as
+well as can be easily seen in the plot. We have looked into the matter and
+found out that for the parameter values used for generating this plot, when
+γ is very near grazing, a P3C1 orbit gains stability a little bit before grazing,
+in addition to the expected P1C0 one. This causes the sharp decline in τ just
+before grazing, because the newborn orbit has a large basin of attraction and a
+much shorter average transient lifetime. We believe this has affected the fit of
+τ vs. γ curve as well. This, of course, will need to be checked by taking many
+initial conditions for each value of γ and plotting the average τ over only the
+initial conditions leading to the P1C0 orbit.
+
+2.6
+
+Conclusion
+
+In this thesis, we have explored two separate aspects of the impact oscillator
+system. The first one was that of vanishing chaos when the ratio of the damped
+natural frequency of the oscillator and the frequency of the driving force is in
+the neighbourhood of certain discrete values. So far, no analytical method for
+determining what these neighbourhoods are has been published. Using the
+impact map formalism, we have done that. This is extremely helpful to know
+these neighbourhoods in actual physical systems because it will enable one to
+set system parameters in a way so that chaos is avoided.
+
+CHAPTER 2. OUR SYSTEM
+
+43
+
+Figure 2.17: Dependence of τ on system parameters
+τ vs. F
+
+700
+
+"./avgtvsf.dat"
+a( Fc − F )−2 + c
+
+650
+600
+550
+
+τ
+
+500
+450
+400
+350
+300
+250
+0.26
+
+0.28
+
+0.3
+
+0.32
+
+0.34
+
+0.36
+
+0.38
+
+0.4
+
+F
+τ vs. γ
+
+5000
+4500
+
+"./avgtvsg.dat"
+a(γ − γc )−6.15 + c
+
+4000
+3500
+
+τ
+
+3000
+2500
+2000
+1500
+1000
+500
+0
+0.08 0.09 0.1 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18
+γ
+
+CHAPTER 2. OUR SYSTEM
+
+44
+
+The second problem we tackled is that of extra long transient times. This is
+a very important problem for experimenters because in every experiment one
+can afford to spend a finite amount of time for each measurement. Extra long
+transient times can make experiments cumbersome at best and non-viable at
+worst. We have attempted to explain the way these lifetimes change with any
+parameter of the system.
+
+Appendix A
+
+Calculations for approximate
+Poincaré map
+In (2.8), there were a few unknown variables whose analytical expressions in
+the regime of low velocity collisions needed to be determined. We proceed to
+do so now:
+Let the parameters be such that the stable orbit grazes slightly: xm ({ parameters}) =
+σ + ε.
+Now start from an initial condition such that | x (0)| = 0. (Exactly on the
+stable orbit).
+Then we have:
+xm cos
+
+ωτ + tan−1
+
+ωγ
+2
+ω 2 − ω0
+
+ωτ + tan−1
+
+=σ
+
+ε
+ωγ
+= cos−1 1 +
+2
+σ
+− ω0
+
+−1
+
+ω2
+
+≈ 2nπ +
+τ≈
+
+1
+ω
+
+45
+
+2ε
+σ
+
+2π +
+
+2ε
+ωγ
+− tan−1 2
+2
+σ
+ω − ω0
+
+APPENDIX A. CALCULATIONS FOR APPROXIMATE POINCARÉ MAP 46
+Now suppose 0 < | x (0)| << 1. Let the time of collision tc = τ + δt
+xm cos
+xm cos
+
+ω (τ + δt) + tan−1
+ωτ + tan−1
+
+σ − ωxm δtsin
+
+ωγ
+2
+ω 2 − ω0
+
+ωτ + tan−1
+
+−ωδtxm
+
+ωγ
+2
+− ω0
+
+ω2
+
++ xh (τ + δt) = σ
+
++ ωδt + xh (τ + δt) = σ
+ωγ
+2
+− ω0
+
+ω2
+
++ xh (τ + δt) = σ
+
+1 − (σ/xm )2 + xh (τ + δt) = 0
+xh (τ )
+ω
+
+v p (τ + δt) = −ωxm sin
+
+ω (τ + δt) + tan−1
+
+= −ωxm sin 2π +
+= −ωxm sin ωδt +
+
+2
+xm
+
+− σ2 − v h ( τ )
+
+= δt
+
+ωγ
+2
+ω 2 − ω0
+
+ωγ
+2ε
+ωγ
++ ωδt + tan−1 2
+− tan−1 2
+2
+2
+σ
+ω − ω0
+ω − ω0
+2ε
+σ
+
+Thus the expressions needed for calculating the approximate Poincaré map
+are derived.
+
+Bibliography
+[1] M. Feigin. Doubling of the oscillation period with C-bifurcations in
+piecewise-continuous systems PMM vol. 34, 1970, pp. 861-869. Journal
+of Applied Mathematics and Mechanics, 34:822–830, 1970.
+[2] Mats H Fredriksson and Arne B Nordmark. Bifurcations caused by grazing incidence in many degrees of freedom impact oscillators. Proceedings
+of the Royal Society of London. Series A: Mathematical, Physical and Engineering Sciences, 453(1961):1261–1276, 1997.
+[3] Mario Bernardo, Chris Budd, Alan Richard Champneys, and Piotr Kowalczyk. Piecewise-smooth dynamical systems: theory and applications, volume
+163. Springer, 2007.
+[4] Soumitro Banerjee, MS Karthik, Guohui Yuan, and James A Yorke. Bifurcations in one-dimensional piecewise smooth maps-theory and applications in switching circuits. Circuits and Systems I: Fundamental Theory and
+Applications, IEEE Transactions on, 47(3):389–394, 2000.
+[5] Philip Holmes, Robert J Full, Dan Koditschek, and John Guckenheimer.
+The dynamics of legged locomotion: Models, analyses, and challenges.
+Siam Review, 48(2):207–304, 2006.
+[6] M Di Bernardo, P Kowalczyk, and A Nordmark. Sliding bifurcations: a
+novel mechanism for the sudden onset of chaos in dry friction oscillators.
+International journal of Bifurcation and chaos, 13(10):2935–2948, 2003.
+[7] Arne B Nordmark and P Kowalczyk. A codimension-two scenario of sliding solutions in grazing–sliding bifurcations. Nonlinearity, 19(1):1, 2006.
+[8] Ferdinand Hendriks. Bounce and chaotic motion in impact print hammers. IBM Journal of Research and Development, 27(3):273–280, 1983.
+[9] PC Tung and SW Shaw. A method for the improvement of impact printer
+performance. Journal of Vibration Acoustics Stress and Reliability in Design,
+110:528, 1988.
+[10] A. Okninski and B. Radziszewski. Chaotic dynamics in a simple bouncing
+ball model. ArXiv e-prints, February 2010.
+47
+
+BIBLIOGRAPHY
+
+48
+
+[11] R. Hilborn. Chaos and nonlinear dynamics: an introduction for scientists and
+engineers. Oxford University Press, Incorporated, 2000.
+[12] MI Feigin. On the structure of c-bifurcation boundaries of piecewisecontinuous systems: Pmm vol. 42, no. 5, 1978, pp. 820–829. Journal of
+Applied Mathematics and Mechanics, 42(5):885–895, 1978.
+[13] M Feigin. On the generation of sets of subharmonic modes in a piecewbecontinuous system pmm vol. 38, n&circe; 5, 1974, pp. 810-818. Journal of
+Applied Mathematics and Mechanics, 38:759–767, 1974.
+[14] M Di Bernardo, CJ Budd, and AR Champneys. Grazing and bordercollision in piecewise-smooth systems: A unified analytical framework.
+Physical Review Letter, 86(12):2553–2556, 2001.
+[15] Vadim I Utkin. Sliding modes in control and optimization, volume 116.
+Springer-Verlag Berlin, 1992.
+[16] Alekse Fedorovich Filippov. Differential Equations with Discontinuous
+Righthand Sides: Control Systems, volume 18. Springer, 1988.
+[17] M Di Bernardo, M Feigin, SJ Hogan, and ME Homer. Local analysis
+of c-bifurcations in n-dimensional piecewise-smooth dynamical systems.
+Chaos, Solitons and Fractals, 10(11):1881–1908, 1999.
+[18] M Di Bernardo, F Garofalo, L Iannelli, and F Vasca. Bifurcations in
+piecewise-smooth feedback systems. International Journal of Control, 75(1617):1243–1259, 2002.
+[19] Soumitro Banerjee and Celso Grebogi. Border collision bifurcations in
+two-dimensional piecewise smooth maps. Physical Review E, 59(4):4052,
+1999.
+[20] Harry Dankowicz and Arne B Nordmark. On the origin and bifurcations
+of stick-slip oscillations. Physica D: Nonlinear Phenomena, 136(3):280–302,
+2000.
+[21] Soumya Kundu, Soumitro Banerjee, Ekaterina Pavlovskaia, Marian Wiercigroch, et al. Singularities in soft-impacting systems. Physica D: Nonlinear
+Phenomena, 241(5):553–565, 2012.
+[22] M Di Bernardo, CJ Budd, and AR Champneys. Corner collision implies
+border-collision bifurcation. Physica D: Nonlinear Phenomena, 154(3):171–
+194, 2001.
+[23] M Di Bernardo, P Kowalczyk, and A Nordmark. Sliding bifurcations: a
+novel mechanism for the sudden onset of chaos in dry friction oscillators.
+International journal of Bifurcation and chaos, 13(10):2935–2948, 2003.
+
+BIBLIOGRAPHY
+
+49
+
+[24] Harry Dankowicz and Michael Katzenbach. Discontinuity-induced bifurcations in models of mechanical contact, capillary adhesion, and cell
+division: A common framework. Physica D: Nonlinear Phenomena, 2011.
+[25] Soumya Kundu, Soumitro Banerjee, and Damian Giaouris. Vanishing
+singularity in hard impacting systems. Discr. Contin. Dyn. Syst., Ser. B,
+16(1):319–332, 2011.
+[26] James Ing, Ekaterina Pavlovskaia, Soumitro Banerjee, and Marian Wiercigroch. Stable grazing trajectories in a bilinear oscillator: simulations and
+experiment.
+[27] Ekaterina Pavlovskaia, Marian Wiercigroch, Soumitro Banerjee, et al. Bifurcation analysis of an impact oscillator with a one-sided elastic constraint near grazing. Physica D: Nonlinear Phenomena, 239(6):312–321, 2010.
+[28] Barbara Blazejczyk-Okolewska, Krzysztof Czolczynski, and Tomasz Kapitaniak. Hard versus soft impacts in oscillatory systems modeling. Communications in Nonlinear Science and Numerical Simulation, 15(5):1358–1367,
+2010.
+[29] Chris Budd and Felix Dux. Chattering and related behaviour in impact
+oscillators. Philosophical Transactions of the Royal Society of London. Series A:
+Physical and Engineering Sciences, 347(1683):365–389, 1994.
+[30] Chris Budd and Felix Dux. Intermittency in impact oscillators close to
+resonance. Nonlinearity, 7(4):1191, 1994.
+[31] Ch Budd, F Dux, and A Cliffe. The effect of frequency and clearance variations on single-degree-of-freedom impact oscillators. Journal of sound and
+vibration, 184(3):475–502, 1995.
+[32] Steven Wayne Shaw and PJ Holmes. A periodically forced piecewise linear oscillator. Journal of Sound and Vibration, 90(1):129–155, 1983.
+[33] SW Shaw. Forced vibrations of a beam with one-sided amplitude constraint: theory and experiment. Journal of Sound and Vibration, 99(2):199–
+212, 1985.
+[34] GS Whiston. Global dynamics of a vibro-impacting linear oscillator. Journal of Sound and Vibration, 118(3):395–424, 1987.
+[35] GS Whiston. Singularities in vibro-impact dynamics. Journal of Sound and
+Vibration, 152(3):427–460, 1992.
+[36] Yue Ma, Soumitro Banerjee, Marian Wiercigroch, Ekaterina Pavlovskaia,
+et al. The nature of the normal form map for soft impacting systems.
+International Journal of Non-Linear Mechanics, 43(6):504–513, 2008.
+
+BIBLIOGRAPHY
+
+50
+
+[37] Ugo Andreaus, Luca Placidi, and Giuseppe Rega. Numerical simulation
+of the soft contact dynamics of an impacting bilinear oscillator. Communications in Nonlinear Science and Numerical Simulation, 15(9):2603–2616, 2010.
+[38] Wikipedia. Newton’s method — wikipedia, the free encyclopedia, 2013.
+[Online; accessed 3-May-2013].
+[39] James M Ortega and Werner C Rheinboldt. Iterative solution of nonlinear
+equations in several variables, volume 30. Society for Industrial and Applied
+Mathematics, 1987.
+[40] Celso Grebogi, Edward Ott, and James A Yorke. Critical exponent of
+chaotic transients in nonlinear dynamical systems. Physical review letter,
+57(11):1284–1287, 1986.
+[41] Celso Grebogi, Edward Ott, Filipe Romeiras, and James A Yorke. Critical
+exponents for crisis-induced intermittency. Physical Review A, 36(11):5365,
+1987.
+[42] WL Ditto, S Rauseo, R Cawley, C Grebogi, G-H Hsu, E Kostelich, E Ott,
+HT Savage, R Segnan, ML Spano, et al. Experimental observation of crisisinduced intermittency and its critical exponent. Physical review letters,
+63(9):923–926, 1989.
+[43] Liqiang Zhu, Arvind Raghu, and Ying-Cheng Lai. Experimental observation of superpersistent chaotic transients. Physical review letter,
+86(18):4017–4020, 2001.
+[44] Richard P. Feynman, Robert B. Leighton, and Matthew Sands. The Feynman Lectures on Physics: Commemorative Issue Vol 1. Addison Wesley, 1989.
+[45] Yves Pomeau and Paul Manneville DPh G PSRM. Intermittent transition
+to turbulence in dissipative dynamical systems. Communications in Mathematical Physics, 74(2):189–197, 1980.
+
+Composed on a Debian GNU/Linux system.
+AT
+Typeset in L
+EX.
+
+

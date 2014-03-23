@@ -1,0 +1,170 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>check_document.py — improve bad documents &mdash; SciDoc 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SciDoc 0.1 documentation" href="index.html" />
+    <link rel="next" title="scidoc — Text analyzer for scientific documents" href="scidoc.html" />
+    <link rel="prev" title="Documentation for |package|" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scidoc.html" title="scidoc — Text analyzer for scientific documents"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation for |package|"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SciDoc 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="check-document-py-improve-bad-documents">
+<h1><strong class="program">check_document.py</strong> &#8212; improve bad documents<a class="headerlink" href="#check-document-py-improve-bad-documents" title="Permalink to this headline">¶</a></h1>
+<p><strong class="program">check_document.py</strong> has a in-built help which can be accessed by running on the terminal:</p>
+<div class="highlight-python"><pre>python text-analyze.py</pre>
+</div>
+<p>Which produces this output:</p>
+<div class="highlight-python"><pre>usage: check_document.py [-h] [-t TYPE] textfile configfile
+check_document.py parses a document, analyzes it using user-definable rules, and
+presents the user with the results
+
+positional arguments:
+  textfile              The path to the file to analyze
+  configfile            The path to the configuration file listing handlers to
+                        apply
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TYPE, --type TYPE  format of textfile, valid options: txt/tex</pre>
+</div>
+<p>Here&#8217;s a basic example of running the program <strong class="program">text-analyze.py</strong> on a text file located at <tt class="file docutils literal"><span class="pre">texts/thesis.txt</span></tt> with the rules (henceforth called &#8216;handlers&#8217;) specified in the configfile <tt class="file docutils literal"><span class="pre">sample.conf</span></tt>:</p>
+<div class="highlight-python"><pre>python text-analyze.py texts/thesis.txt sample.conf</pre>
+</div>
+<p>This produces the output:</p>
+<div class="highlight-python"><pre>{'nparas': 1060, 'nwords': 19143, 'nsents': 2073}
+You have used these variations of the same word: Fig,Figure. Consider using only one.</pre>
+</div>
+<p>We describe how to write config files in the next section.</p>
+<div class="section" id="writing-your-own-configfile">
+<h2>Writing your own configfile<a class="headerlink" href="#writing-your-own-configfile" title="Permalink to this headline">¶</a></h2>
+<p>A configfile is a plaintext file with one or more columns in each line. Blank lines are ignored. Columns are separated by a single tab. The first column mentions the name of the rule to apply. The rest of the columns specify the arguments the rule accepts. Here is a barebones configfile:</p>
+<div class="highlight-python"><pre>stat
+variation_detect        "list"  [("Fig", "Figure")]</pre>
+</div>
+<p>The first line specifies that the handler named <tt class="docutils literal"><span class="pre">stat</span></tt> will be applied with no additional arguments.
+The secodn line specifies that the handler named <tt class="docutils literal"><span class="pre">variation_detect</span></tt> will be applied with additional arguments <tt class="docutils literal"><span class="pre">&quot;list&quot;</span></tt> and <tt class="docutils literal"><span class="pre">[(&quot;Fig&quot;,</span> <span class="pre">&quot;Figure&quot;)]</span></tt>.</p>
+<p>To write your own configfile, you therefore need to know:</p>
+<ol class="arabic simple">
+<li>Which handlers are avilable to you.</li>
+<li>Which arguments need to be supplied to each handler.</li>
+</ol>
+<p>This information should be supplied by the developers writing the handlers.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Will add link to the handler doc page</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><strong class="program">check_document.py</strong> &#8212; improve bad documents</a><ul>
+<li><a class="reference internal" href="#writing-your-own-configfile">Writing your own configfile</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Documentation for |package|</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="scidoc.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">scidoc</span></tt> &#8212; Text analyzer for scientific documents</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/frontend.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scidoc.html" title="scidoc — Text analyzer for scientific documents"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Documentation for |package|"
+             >previous</a> |</li>
+        <li><a href="index.html">SciDoc 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Debsankha Manik, Dr. Fabio Schittler Neves.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
